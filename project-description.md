@@ -1,6 +1,6 @@
 # Student Housing Foundation Reservation site
 
-##Target users and stakeholders
+## Target users and stakeholders
 
 The target users of the site are students in the foundation, admin students and foundation staff.
 
@@ -11,7 +11,7 @@ The site has no incentive to attract users outside the student foundation body.
 The site will differentiate between three kinds of log in credentials: Regular foundation members, admin members and foundation staff.
 
 
-##Main functionality
+## Main functionality
 
 - **Login**
 	The site will store user login data, namely username, password and account status (Member, admin member, staff)
@@ -63,7 +63,7 @@ The site will differentiate between three kinds of log in credentials: Regular f
 	interested in their posting.
 	
 	
--**AI features**
+- **AI features**
 	Check inappropriate request description or image postings.
 	
 	Generate text description summary based on user submitted images 
