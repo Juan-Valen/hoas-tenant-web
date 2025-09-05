@@ -25,5 +25,6 @@
 |-------|----------|---------|----|------|
 
 
-
+## FIGMA LINK
+https://www.figma.com/design/uN7Oobl9CIZzDTuX0hgdu8/main-page-layout?t=bEQmUOH8wGLZ5y2t-1
 
