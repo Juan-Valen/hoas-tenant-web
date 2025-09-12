@@ -2,6 +2,8 @@ import React from "react";
 import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 import LoginPage from "./components/LoginPage";
 
+// Test component for the home page
+
 function Home() {
   return (
     <div style={{ textAlign: "center", marginTop: "50px" }}>
