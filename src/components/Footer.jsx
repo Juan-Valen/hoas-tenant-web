@@ -1,17 +1,18 @@
 import React from "react";
 
-function Header() {
+function Footer() {
   return (
-    <header className="header">
-      <div className="logo">StudentHousingCo</div>
+    <footer className="footer">
+      <p>© 2025 StudentHousingCo – All rights reserved.</p>
       <nav>
         <a href="#announcements">Announcements</a>
         <a href="#messages">Messages</a>
         <a href="#forms">Forms</a>
         <a href="#booking">Booking</a>
       </nav>
-    </header>
+    </footer>
   );
 }
 
-export default Header;
+export default Footer;
+
