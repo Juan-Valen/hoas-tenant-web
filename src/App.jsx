@@ -1,16 +1,21 @@
-import React from "react";
-import Header from "./components/Header";
-import Footer from "./components/Footer";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Home from "./pages/Home";
+import NotFound from "./pages/NotFound";
+import LoginPage from "./pages/LoginPage";
+import Layout from "./layouts/Layout";
 
 function App() {
-  return (
-    <div className="app">
-      <Header />
-      <Home />
-      <Footer />
-    </div>
-  );
+    return (
+        <BrowserRouter>
+            <Routes>
+                <Route path="/" element={<Layout />}>
+                    <Route index element={<Home />} />
+                </Route>
+                <Route path="/login" element={<LoginPage />} />
+                <Route path="*" element={<NotFound />} />
+            </Routes>
+        </BrowserRouter>
+    );
 }
 
 export default App;
