@@ -8,6 +8,7 @@ function Home() {
     { id: 3, title: "Forms", text: "Access and submit necessary forms.", link: "#forms" },
     { id: 4, title: "Booking", text: "Reserve common rooms or services.", link: "#booking" },
     { id: 5, title: "Second-Hand Marketplace", text: "Buy and sell pre-loved items easily.", link: "/marketplace" }, 
+    { id: 6, title: "Admin Panel", text: "Access the admin dashboard.", link: "/admin" },
   ];
 
   return (
