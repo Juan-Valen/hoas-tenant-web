@@ -1,0 +1,141 @@
+/* Container */
+.laundry-container {
+  font-family: Arial, sans-serif;
+  color: #333;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+/* Tabs */
+.laundry-tabs {
+  display: flex;
+  align-items: center;
+  border: 1px solid #ddd;
+  background: #f9f9f9;
+  margin-bottom: 10px;
+}
+
+.tab {
+  flex: 1;
+  padding: 8px 12px;
+  font-size: 12px;
+  font-weight: bold;
+  text-transform: uppercase;
+  color: #2d4ed9;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.tab.active {
+  background: #2d4ed9;
+  color: #fff;
+  border-radius: 2px;
+}
+
+.laundry-tabs .tab + .tab {
+  border-left: 1px solid #ddd;
+}
+
+/* Title Row */
+.laundry-title {
+  border: 1px solid #ddd;
+  background: #f9f9f9;
+  text-align: center;
+  font-weight: bold;
+  font-size: 14px;
+  padding: 10px;
+  margin-bottom: 10px;
+  text-transform: uppercase;
+  color: #2d4ed9;
+}
+
+/* Date Row */
+.laundry-date-row {
+  border: 1px solid #ddd;
+  background: #f9f9f9;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  font-weight: bold;
+  padding: 10px;
+  margin-bottom: 10px;
+  text-transform: uppercase;
+}
+
+.laundry-date {
+  color: #444;
+}
+
+.calendar-icon {
+  font-size: 14px;
+}
+
+/* Reservation Summary */
+.reservation-summary {
+  text-align: center;
+  font-size: 12px;
+  margin: 12px 0;
+  font-weight: bold;
+}
+
+/* Grid */
+.laundry-grid {
+  border: 1px solid #ddd;
+  border-collapse: collapse;
+  font-size: 12px;
+}
+
+.laundry-row {
+  display: grid;
+  grid-template-columns: 100px repeat(4, 1fr);
+  border-bottom: 1px solid #ddd;
+}
+
+.laundry-row:last-child {
+  border-bottom: none;
+}
+
+.header-row {
+  background: #f7f7f7;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+/* Alternate Row Colors */
+.laundry-row:nth-child(even):not(.header-row) {
+  background-color: #fafafa;
+}
+
+.laundry-row:nth-child(odd):not(.header-row) {
+  background-color: #ffffff;
+}
+
+.time-label,
+.machine-label,
+.slot {
+  padding: 8px;
+  border-right: 1px solid #ddd;
+  text-align: center;
+}
+
+.time-label {
+  font-weight: bold;
+}
+
+.slot:last-child,
+.machine-label:last-child {
+  border-right: none;
+}
+
+/* Status Styles */
+.slot.vacant {
+  color: #009688;
+}
+
+.slot.reserved {
+  color: #888;
+  font-weight: bold;
+}
