@@ -11,6 +11,7 @@ import AdminMarketplace from "./pages/admin/AdminMarketplace";
 import AdminHousing from "./pages/admin/AdminHousing";
 import AdminAnnouncements from "./pages/admin/AdminAnnouncements.jsx";
 import AdminReports from "./pages/admin/AdminReports";
+import AdminBuildingFacilities from "./pages/admin/AdminBuildingFacilities";
 
 function App() {
   return (
@@ -26,6 +27,7 @@ function App() {
         <Route path="/admin" element={<AdminLayout />}>
           <Route index element={<AdminHome />} />
           <Route path="users" element={<AdminUsers />} />
+          <Route path="facilities" element={<AdminBuildingFacilities />} />
           <Route path="marketplace" element={<AdminMarketplace />} />
           <Route path="housing" element={<AdminHousing />} />
           <Route path="announcements" element={<AdminAnnouncements />} />

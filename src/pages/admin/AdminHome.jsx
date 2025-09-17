@@ -8,6 +8,8 @@ function AdminHome() {
     { id: 3, title: "Housing Management", link: "/admin/housing" },
     { id: 4, title: "Announcements", link: "/admin/announcements" },
     { id: 5, title: "Reports", link: "/admin/reports" },
+    { id: 6, title: "Building Facilities", link: "/admin/facilities" },
+
   ];
 
   return (
