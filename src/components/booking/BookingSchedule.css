@@ -1,0 +1,93 @@
+.booking-schedule {
+  background-color: #fff;
+  border: 1px solid #ddd;
+  padding: 1rem;
+  border-radius: 6px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.booking-schedule p {
+  font-size: 1rem;
+  font-weight: 500;
+  color: #0077cc;
+  margin-bottom: 1rem;
+}
+
+.schedule-grid {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.schedule-column {
+  flex: 1;
+  min-width: 200px;
+  border-right: 1px solid #eee;
+  padding-right: 1rem;
+}
+
+.schedule-column:last-child {
+  border-right: none;
+}
+
+.schedule-column h4 {
+  margin-bottom: 0.5rem;
+  color: #0077cc;
+  font-size: 1rem;
+}
+
+.schedule-column ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.schedule-column li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.4rem;
+  padding: 0.4rem 0.5rem;
+  border-radius: 4px;
+  transition: background-color 0.2s ease;
+}
+
+/* Alternate row background colors */
+.schedule-column li:nth-child(odd) {
+  background-color: #f9f9f9;
+}
+
+.schedule-column li:nth-child(even) {
+  background-color: #eef4fa;
+}
+
+.schedule-column li:hover {
+  background-color: #ddeeff;
+}
+
+.schedule-column button {
+  padding: 0.3rem 0.6rem;
+  border: none;
+  border-radius: 4px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  transition: background-color 0.2s ease;
+}
+
+/* VACANT button */
+.schedule-column button.vacant {
+  background-color: #0077cc;
+  color: white;
+  cursor: pointer;
+}
+
+.schedule-column button.vacant:hover {
+  background-color: #005fa3;
+}
+
+/* RESERVED button */
+.schedule-column button.reserved {
+  background-color: #ccc;
+  color: #666;
+  cursor: not-allowed;
+}
