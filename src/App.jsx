@@ -1,4 +1,7 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import BookingPage from './pages/BookingPage';
+
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+
 import Home from "./pages/Home";
 import Marketplace from "./pages/Marketplace";
 import NotFound from "./pages/NotFound";
@@ -21,6 +24,7 @@ function App() {
         <Route path="/" element={<Layout />}>
           <Route index element={<Home />} />
           <Route path="marketplace" element={<Marketplace />} />
+          <Route path='/booking' element={<BookingPage />} />
         </Route>
 
         {/* Admin site */}

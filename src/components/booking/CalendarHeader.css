@@ -1,0 +1,31 @@
+.calendar-header {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-size: 1rem;
+  margin-bottom: 1rem;
+  color: #0077cc;
+}
+
+.calendar-icon {
+  font-size: 1.2rem;
+}
+
+.calendar-date {
+  font-weight: 500;
+}
+
+.calendar-arrow {
+  font-size: 1.2rem;
+  cursor: pointer;
+  transition: color 0.2s ease;
+}
+
+.calendar-arrow:hover {
+  color: #005fa3;
+}
+
+.calendar-arrow.disabled {
+  color: #ccc;
+  cursor: not-allowed;
+}
