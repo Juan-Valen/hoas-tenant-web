@@ -1,14 +1,13 @@
 import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import ReservationPage from "./components/Booking/ReservationPage";
-// Later you can import SaunaPage, ProfilePage, etc.
+import BookingPage from './pages/BookingPage';
+
 
 const App = () => {
   return (
     <Router>
       <Routes>
-        <Route path="/Booking" element={<ReservationPage />} />
-        {/* Add other pages here */}
+        <Route path="/booking" element={<BookingPage />} />
       </Routes>
     </Router>
   );
