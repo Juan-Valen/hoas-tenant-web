@@ -20,10 +20,6 @@ const userSchema = new Schema(
             type: Number,
             required: true,
         },
-        created_by: {
-            type: String,
-            required: true,
-        },
     },
     { timestamps: true }
 );

@@ -5,7 +5,7 @@ const Schema = mongoose.Schema;
 const reservationSchema = new Schema(
     {
         reserved_id: {
-            type: String,
+            type: mongoose.Schema.Types.ObjectId,
             required: true,
         },
         start: {
@@ -17,8 +17,9 @@ const reservationSchema = new Schema(
             required: true,
         },
         reserved_by: {
-            type: String,
+            type: mongoose.Schema.Types.ObjectId,
             required: true,
+            ref: 'User', // Referencing the User model
         },
     },
     { timestamps: true }

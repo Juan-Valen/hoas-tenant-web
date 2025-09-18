@@ -14,6 +14,6 @@ router.post('/', createReservation);
 router.get('/:reservationId', getReservationById);
 router.put('/:reservationId', updateReservation);
 router.delete('/:reservationId', deleteReservation);
-router.get('/freeslots/:start/:end', getFreeSlots); // Example route for free slots
+router.get('/freeslots/:reserved_id/:start/:end', getFreeSlots); // Get all free times for a specific items  or space by its mongoDB ID 
 
 module.exports = router;

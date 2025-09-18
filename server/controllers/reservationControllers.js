@@ -118,9 +118,9 @@ const deleteReservation = async (req, res) => {
     }
 };
 
-// GET /api/reservations/freeslots/:start/:end
+// GET /api/reservations/freeslots/:reserved_id/:start/:end
 const getFreeSlots = async (req, res) => {
-    const { start, end } = req.params;
+    const { reserved_id, start, end } = req.params;
 
     const startTime = new Date(start);
     const endTime = new Date(end);
@@ -131,6 +131,7 @@ const getFreeSlots = async (req, res) => {
 
     try {
         const reservations = await Reservation.find({
+            reserved_id : reserved_id,
             start: { $lt: endTime },
             end: { $gt: startTime }
         }).sort('start');
