@@ -1,0 +1,42 @@
+.booking-page {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.booking-layout {
+  display: flex;
+  flex-direction: row;
+  gap: 2rem;
+  padding: 1rem 2rem;
+}
+
+.booking-sidebar {
+  flex: 1;
+  min-width: 250px;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.booking-main {
+  flex: 2;
+  min-width: 300px;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+/* 📱 Responsive layout */
+@media (max-width: 768px) {
+  .booking-layout {
+    flex-direction: column;
+    padding: 1rem;
+  }
+
+  .booking-sidebar,
+  .booking-main {
+    width: 100%;
+  }
+}
+
