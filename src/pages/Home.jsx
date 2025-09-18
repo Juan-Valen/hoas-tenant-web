@@ -1,5 +1,6 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link } from "react-router-dom"; 
+
 
 function Home() {
   const cards = [
@@ -7,7 +8,8 @@ function Home() {
     { id: 2, title: "Messages", text: "Check your messages and stay connected.", link: "#messages" },
     { id: 3, title: "Forms", text: "Access and submit necessary forms.", link: "#forms" },
     { id: 4, title: "Booking", text: "Reserve common rooms or services.", link: '/booking' },
-
+    { id: 5, title: "Second-Hand Marketplace", text: "Buy and sell pre-loved items easily.", link: "/marketplace" }, 
+    { id: 6, title: "Admin Panel", text: "Access the admin dashboard.", link: "/admin" }
   ];
 
   return (
@@ -17,7 +19,11 @@ function Home() {
           <div className="card" key={card.id}>
             <h2>{card.title}</h2>
             <p>{card.text}</p>
-            <a href={card.link} className="btn">Open</a>
+            {card.link.startsWith("/") ? (
+              <Link to={card.link} className="btn">Open</Link> // use React Router for internal routes
+            ) : (
+              <a href={card.link} className="btn">Open</a>
+            )}
           </div>
         ))}
       </section>
@@ -26,4 +32,3 @@ function Home() {
 }
 
 export default Home;
-

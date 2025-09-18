@@ -1,0 +1,58 @@
+/* Marketplace page wrapper */
+.marketplace {
+  padding: 2rem;
+}
+
+/* Filter bar */
+.filter-bar {
+  display: flex;
+  gap: 1rem;
+  margin: 1rem 0;
+}
+.filter-bar input,
+.filter-bar select,
+.filter-bar button {
+  padding: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+}
+
+/* Product grid */
+.product-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 1.5rem;
+}
+
+/* Product card */
+.product-card {
+  border: 1px solid #eee;
+  border-radius: 12px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+  padding: 1rem;
+  text-align: center;
+  background: white;
+}
+.product-card img {
+  width: 100%;
+  border-radius: 8px;
+}
+.product-card h3 {
+  margin: 0.5rem 0;
+}
+
+/* Card actions */
+.actions button {
+  margin: 0.5rem;
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+.actions button:first-child {
+  background: #f0f0f0;
+}
+.actions button:last-child {
+  background: #28a745;
+  color: white;
+}
