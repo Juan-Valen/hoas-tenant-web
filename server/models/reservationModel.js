@@ -5,21 +5,22 @@ const Schema = mongoose.Schema;
 const reservationSchema = new Schema(
     {
         reserved_id: {
-            type: mongoose.Schema.Types.ObjectId,
+            type: String,
             required: true,
         },
         start: {
-            type: String,
-            required: true
+            type: Date,
+            required: true,
+            get: v => v.toISOString()
         },
         end: {
-            type: String,
+            type: Date,
             required: true,
+             get: v => v.toISOString(),
         },
         reserved_by: {
-            type: mongoose.Schema.Types.ObjectId,
+            type: String,
             required: true,
-            ref: 'User', // Referencing the User model
         },
     },
     { timestamps: true }
