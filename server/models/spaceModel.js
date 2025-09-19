@@ -21,8 +21,9 @@ const spaceSchema = new Schema(
             required: true,
         },
         created_by: {
-            type: Number,
+            type: mongoose.Schema.Types.ObjectId,
             required: true,
+            ref: 'User', // Referencing the User model
         },
     },
     { timestamps: true }

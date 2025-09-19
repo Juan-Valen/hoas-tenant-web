@@ -21,11 +21,14 @@ const itemSchema = new Schema(
             required: true,
         },
         created_by: {
-            type: String,
+            type: mongoose.Schema.Types.ObjectId,
             required: true,
+            ref: 'User', // Referencing the User model
         },
     },
     { timestamps: true }
 );
 
-module.exports = mongoose.model("Item", itemSchema);
+const Item = mongoose.model("Item", itemSchema);
+
+module.exports = Item
