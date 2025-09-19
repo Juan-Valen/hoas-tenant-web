@@ -36,6 +36,7 @@ const createReservation = async (req, res) => {
 
 
         if (conflict) {
+            console.log(conflict)
             return res.status(400).json({ message: "Time slot already booked" });
         }
 
@@ -119,8 +120,9 @@ const deleteReservation = async (req, res) => {
 };
 
 // GET /api/reservations/freeslots/:reserved_id/:start/:end
-const getFreeSlots = async (req, res) => {
-    const { reserved_id, start, end } = req.params;
+const getFullSlots = async (req, res) => {
+    const { reserved_id } = req.params;
+    const { start, end } = req.body
 
     const startTime = new Date(start);
     const endTime = new Date(end);
@@ -129,31 +131,21 @@ const getFreeSlots = async (req, res) => {
         return res.status(400).json({ message: "Start time must be before end time" });
     }
 
+
     try {
         const reservations = await Reservation.find({
-            reserved_id : reserved_id,
+            reserved_id: reserved_id,
             start: { $lt: endTime },
             end: { $gt: startTime }
         }).sort('start');
 
-        let freeSlots = [];
-        let currentTime = startTime;
+        let fullSlots = [];
 
         for (let r of reservations) {
-
-            if (new Date(r.start) > currentTime) {
-                freeSlots.push({ begins: currentTime, ends: new Date(r.start) })
-            }
-            if (new Date(r.end) > currentTime) {
-                currentTime = new Date(r.end);
-            }
+            fullSlots.push({ begins: new Date(r.start), ends: new Date(r.end) })
         }
 
-        if (currentTime < endTime) {
-            freeSlots.push({ begins: currentTime, ends: endTime })
-        }
-
-        res.status(200).json(freeSlots);
+        res.status(200).json(fullSlots);
     } catch (error) {
         res.status(500).json({ message: `Server error: ${error}, failed to retrieve free slots` });
     }
@@ -165,5 +157,5 @@ module.exports = {
     getReservationById,
     updateReservation,
     deleteReservation,
-    getFreeSlots
+    getFullSlots
 };

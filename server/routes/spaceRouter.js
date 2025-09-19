@@ -9,9 +9,9 @@ const {
 } = require("../controllers/spaceControllers")
 
 router.get('/', getAllSpaces);
-router.get('/:itemId', getSpaceById)
+router.get('/:spaceId', getSpaceById)
 router.post('/', createSpace)
-router.put('/:itemId', updatedSpace)
-router.delete('/:itemId', deleteSpace)
+router.put('/:spaceId', updatedSpace)
+router.delete('/:spaceId', deleteSpace)
 
 module.exports = router;

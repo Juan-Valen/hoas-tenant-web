@@ -38,6 +38,7 @@ const createUser = async (req, res) => {
         const newUser = await User.create({ ...req.body });
         res.status(201).json(newUser);
     } catch (error) {
+        console.error(error)
         res
             .status(400)
             .json({
@@ -50,15 +51,27 @@ const createUser = async (req, res) => {
 // PUT /users/:userId
 const updatedUser = async (req, res) => {
     const { userId } = req.params;
+    const { password } = req.body
 
-    if (!mongoose.Types.userId.isValid(userId)) {
+    if (!mongoose.Types.ObjectId.isValid(userId)) {
         return res.status(400).json({ message: "Invalid user ID" });
     }
 
     try {
+        const user = await User.findById(userId);
+
+        if (user.password !== password) {
+            return res.status(401).json({ message: "invalid login credentials" })
+        }
+
         const updatedUser = await User.findOneAndUpdate(
             { _id: userId },
-            { ...req.body },
+            {
+                name: req.body.name,
+                email: req.body.email,
+                password: req.body.updated_password,
+                status: req.body.status,
+            },
             { new: true }
         );
         if (updatedUser) {
