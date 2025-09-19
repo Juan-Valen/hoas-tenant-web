@@ -238,8 +238,8 @@ function LoginPage() {
             return;
         }
 
-        // Call login API instead of console.log
-        console.log("Logging in with:", { email });
+        // Successful validation
+        console.log("Login form submitted successfully");
 
         // Reset state
         setEmail("");
@@ -266,10 +266,11 @@ function LoginPage() {
         </form>
     );
 }
+
 ```
 **Key Improvements:**
 User Feedback: Error messages guide users to fix invalid inputs.
 
 Security: Removed console.log(password) to prevent credential leaks.
 
-Scalability: Clear validation makes it easy to add features like API integration.
+Clarity: Kept console output generic instead of exposing sensitive data.
