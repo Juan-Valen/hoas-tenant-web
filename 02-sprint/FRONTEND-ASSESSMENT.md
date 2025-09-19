@@ -177,3 +177,99 @@ if (currentCount >= 5) {
 - Reservation Awareness: Buttons reflect real-time availability.
 
 - Scalable Grid: Easily supports more rooms or time slots.
+- 
+### Example: Improving Login Validation  
+
+Initially, our `LoginPage` component provided a simple login form:  
+
+```
+// LoginPage.js
+function LoginPage() {
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+
+    // Email validation
+    const isValidEmail = (email) => /\S+@\S+\.\S+/.test(email);
+
+    // Password strength validation (at least 6 characters, one number, one letter)
+    const isStrongPassword = (password) =>
+        password.length >= 6 && /\d/.test(password) && /[a-zA-Z]/.test(password);
+
+    const onSubmit = (e) => {
+        e.preventDefault();
+
+        console.log(email);
+        console.log(password);
+        // Reset the form state.
+        setEmail('');
+        setPassword('');
+    };
+}
+```
+While functional, it had several shortcomings:
+
+Validation results were never displayed to users.
+
+Password strength and email validity were only checked internally but not enforced.
+
+Logging credentials to the console posed a security risk.
+
+**Improved:**
+```
+// Improved LoginPage.js
+function LoginPage() {
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+    const [error, setError] = useState("");
+
+    const isValidEmail = (email) => /\S+@\S+\.\S+/.test(email);
+    const isStrongPassword = (password) =>
+        password.length >= 6 && /\d/.test(password) && /[a-zA-Z]/.test(password);
+
+    const onSubmit = (e) => {
+        e.preventDefault();
+
+        if (!isValidEmail(email)) {
+            setError("Please enter a valid email address.");
+            return;
+        }
+        if (!isStrongPassword(password)) {
+            setError("Password must be at least 6 characters and include letters and numbers.");
+            return;
+        }
+
+        // Call login API instead of console.log
+        console.log("Logging in with:", { email });
+
+        // Reset state
+        setEmail("");
+        setPassword("");
+        setError("");
+    };
+
+    return (
+        <form onSubmit={onSubmit}>
+            <input
+                type="email"
+                value={email}
+                placeholder="Email"
+                onChange={(e) => setEmail(e.target.value)}
+            />
+            <input
+                type="password"
+                value={password}
+                placeholder="Password"
+                onChange={(e) => setPassword(e.target.value)}
+            />
+            {error && <p style={{ color: "red" }}>{error}</p>}
+            <button type="submit">Login</button>
+        </form>
+    );
+}
+```
+**Key Improvements:**
+User Feedback: Error messages guide users to fix invalid inputs.
+
+Security: Removed console.log(password) to prevent credential leaks.
+
+Scalability: Clear validation makes it easy to add features like API integration.
