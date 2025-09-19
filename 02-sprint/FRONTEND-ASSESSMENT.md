@@ -177,7 +177,7 @@ if (currentCount >= 5) {
 - Reservation Awareness: Buttons reflect real-time availability.
 
 - Scalable Grid: Easily supports more rooms or time slots.
-- 
+
 ### Example: Improving Login Validation  
 
 Initially, our `LoginPage` component provided a simple login form:  
@@ -206,15 +206,16 @@ function LoginPage() {
     };
 }
 ```
-While functional, it had several shortcomings:
+**While functional, it had several shortcomings:**
 
-Validation results were never displayed to users.
+- Validation results were never displayed to users.
 
-Password strength and email validity were only checked internally but not enforced.
+- Password strength and email validity were only checked internally but not enforced.
 
-Logging credentials to the console posed a security risk.
+- Logging credentials to the console posed a security risk.
 
 **Improved:**
+
 ```
 // Improved LoginPage.js
 function LoginPage() {
@@ -269,8 +270,9 @@ function LoginPage() {
 
 ```
 **Key Improvements:**
-User Feedback: Error messages guide users to fix invalid inputs.
 
-Security: Removed console.log(password) to prevent credential leaks.
+- User Feedback: Error messages guide users to fix invalid inputs.
 
-Clarity: Kept console output generic instead of exposing sensitive data.
+- Security: Removed console.log(password) to prevent credential leaks.
+
+- Clarity: Kept console output generic instead of exposing sensitive data.
