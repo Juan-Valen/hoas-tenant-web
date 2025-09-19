@@ -6,10 +6,6 @@ export default function BookingTabs({ activeTab, setActiveTab }) {
 
   return (
     <div className="booking-tabs-header">
-      <div className="logo-section">
-        <div className="logo-box">HOAS</div>
-        <span className="logo-text">Booking</span>
-      </div>
       <div className="tab-buttons">
         {tabs.map((tab) => (
           <button

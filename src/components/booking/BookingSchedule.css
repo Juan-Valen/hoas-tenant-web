@@ -9,7 +9,7 @@
 .booking-schedule p {
   font-size: 1rem;
   font-weight: 500;
-  color: #0077cc;
+  color: #5865f6;
   margin-bottom: 1rem;
 }
 
@@ -32,7 +32,7 @@
 
 .schedule-column h4 {
   margin-bottom: 0.5rem;
-  color: #0077cc;
+  color: #5865f6;
   font-size: 1rem;
 }
 
@@ -76,13 +76,13 @@
 
 /* VACANT button */
 .schedule-column button.vacant {
-  background-color: #0077cc;
+  background-color: #5865f6;
   color: white;
   cursor: pointer;
 }
 
 .schedule-column button.vacant:hover {
-  background-color: #005fa3;
+  background-color: #5865f6;
 }
 
 /* RESERVED button */

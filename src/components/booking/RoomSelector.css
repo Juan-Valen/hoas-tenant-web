@@ -11,13 +11,13 @@
   border: none;
   border-radius: 4px;
   font-weight: 500;
-  color: #0077cc;
+  color: #5865f6;
   cursor: pointer;
   transition: background-color 0.2s ease;
 }
 
 .room-selector button.active {
-  background-color: #0077cc;
+  background-color: #5865f6;
   color: white;
 }
 
@@ -37,13 +37,13 @@
   border: none;
   border-radius: 4px;
   font-weight: 500;
-  color: #0077cc;
+  color: #5865f6;
   cursor: pointer;
   transition: background-color 0.2s ease, color 0.2s ease;
 }
 
 .room-selector button.active {
-  background-color: #0077cc;
+  background-color: #5865f6;
   color: white;
 }
 

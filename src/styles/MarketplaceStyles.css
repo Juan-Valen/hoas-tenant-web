@@ -2,6 +2,13 @@
 .marketplace {
   padding: 2rem;
 }
+.marketplace h1 {
+    background-color: #5865f6;
+    padding: 5px 14px;
+    width: fit-content;
+    justify-self: center;
+    color:#ffe630;
+}
 
 /* Filter bar */
 .filter-bar {

@@ -1,31 +1,42 @@
 .calendar-header {
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-  font-size: 1rem;
-  margin-bottom: 1rem;
-  color: #0077cc;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    justify-content: space-between;
+    font-size: 1rem;
+    margin-bottom: 1rem;
+    color: #5865f6;
+    background-color: white;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+.calendar-header div {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+
 }
 
 .calendar-icon {
-  font-size: 1.2rem;
+    font-size: 1.2rem;
 }
 
 .calendar-date {
-  font-weight: 500;
+    font-weight: 500;
 }
 
 .calendar-arrow {
-  font-size: 1.2rem;
-  cursor: pointer;
-  transition: color 0.2s ease;
+    font-size: 1.2rem;
+    cursor: pointer;
+    transition: color 0.2s ease;
 }
 
 .calendar-arrow:hover {
-  color: #005fa3;
+    color: #005fa3;
 }
 
 .calendar-arrow.disabled {
-  color: #ccc;
-  cursor: not-allowed;
+    color: #ccc;
+    cursor: not-allowed;
 }

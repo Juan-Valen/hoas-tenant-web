@@ -16,31 +16,74 @@ body {
     display: block;
     margin: 0;
     font-family: Arial, sans-serif;
-    background: #f9f9f9;
+    background: #e9e9e9;
     color: #222;
 }
 
 #root>main {
     min-height: calc(100vh - 80px - 80px);
     min-height: calc(100dvh - 80px - 80px);
+    background-image: url("/myhoas_block.jpg");
+    object-position: center;
+}
+
+#root>main.login {
+    min-height: 100vh;
+    min-height: 100dvh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#root>main.notFound {
+    min-height: 100vh;
+    min-height: 100dvh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+#root>main.notFound div {
+    background-color: white;
+    padding: 14px;
+    box-shadow: 1px 1px 6px #000000;
+    border-radius: 5px;
 }
 
 .header,
 .footer {
     height: 80px;
-    background: #004080;
-    color: white;
+    background: white;
+    color: black;
     padding: 1rem 2rem;
     display: flex;
     justify-content: space-between;
     align-items: center;
 }
 
+.header>a {
+    height: 100%;
+}
+
 .header nav a,
 .footer nav a {
-    color: white;
+    color: black;
     margin-left: 1rem;
     text-decoration: none;
+}
+
+.header .login {
+    background: #5865f6;
+    color: white;
+    padding: 10px;
+    border-radius: 18px;
+}
+
+.header svg.logo {
+    height: 100%;
+}
+
+.header svg.logo .cls-1 {
+    fill: #f13a6f;
 }
 
 .hero {
@@ -54,7 +97,7 @@ body {
 }
 
 .hero .btn {
-    background: #004080;
+    background: #5865f6;
     color: white;
     padding: 0.6rem 1.2rem;
     border-radius: 6px;
@@ -81,9 +124,19 @@ body {
 .card .btn {
     margin-top: 1rem;
     display: inline-block;
-    background: #004080;
+    background: #5865f6;
     color: white;
     padding: 0.5rem 1rem;
     border-radius: 5px;
     text-decoration: none;
+}
+
+.card p {
+    color: #898989;
+}
+
+.items {
+    height: 150px;
+    background: #f3f3f3;
+    margin-block: 10px;
 }
