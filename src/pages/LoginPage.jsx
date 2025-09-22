@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import "../styles/LoginPage.css";
+import { Navigate } from "react-router-dom";
 
 function LoginPage() {
     const [email, setEmail] = useState("");
@@ -12,9 +13,19 @@ function LoginPage() {
     const isStrongPassword = (password) =>
         password.length >= 6 && /\d/.test(password) && /[a-zA-Z]/.test(password);
 
+    const onSubmit = (e) => {
+        e.preventDefault();
+
+        console.log(email);
+        console.log(password);
+        // Reset the form state.
+        setEmail('');
+        setPassword('');
+    }
+
     return (
         <main className="login">
-            <div className="login-container">
+            <form className="login-container" onSubmit={onSubmit}>
                 <svg className="logo" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 264.23 119.65">
                     <defs>
                         <style
@@ -79,7 +90,7 @@ function LoginPage() {
                 )}
 
                 <button className="login-btn">Login</button>
-            </div>
+            </form>
         </main>
     );
 }
