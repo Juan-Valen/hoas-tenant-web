@@ -1,19 +1,25 @@
 const mongoose = require("mongoose");
+
 const Schema = mongoose.Schema;
 
-const marketSchema = new Schema(
+const productSchema = new Schema(
   {
-    owner_id: { type: String, required: true },
-    sellerName: { type: String, required: true },
     title: { type: String, required: true },
-    description: { type: String, required: true },
-    price: { type: Number, required: true, default: 0 },
-    free: { type: Boolean, default: false }, // free/giveaway option
-    category: { type: String, required: true },
-    images: [{ type: String }], // array of image URLs
+    description: { type: String },
+    price: { type: Number, required: true },
+    free: { type: Boolean, default: false },
+    sellerName: { type: String, required: true },
+    category: { type: String },
+    images: [String],
+    status: {
+      type: String,
+      enum: ["Pending", "Approved", "Rejected"],
+      default: "Pending",
+    },
   },
   { timestamps: true }
 );
 
-module.exports = mongoose.model("Market", marketSchema);
+const Product = mongoose.model("Product", productSchema);
 
+module.exports = Product;
