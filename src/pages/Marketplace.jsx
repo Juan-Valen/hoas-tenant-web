@@ -1,55 +1,98 @@
-import React, { useState } from "react";
-import FilterBar from "../components/FilterBar";
+import React, { useState, useEffect } from "react";
+import FilterSidebar from "../components/FilterSidebar";
 import ProductCard from "../components/ProductCard";
-import "../styles/MarketplaceStyles.css";
+import ListingForm from "../components/ListingForm";
+import "../styles/Marketplace.css";
 
-function Marketplace() {
-    const sampleProducts = [
-        {
-            id: 1,
-            title: "Used iPhone 13",
-            price: 500,
-            seller: "John Doe",
-            image: "https://via.placeholder.com/200"
-        },
-        {
-            id: 2,
-            title: "Wooden Dining Table",
-            price: 250,
-            seller: "Jane Smith",
-            image: "https://via.placeholder.com/200"
-        },
-        {
-            id: 3,
-            title: "Leather Jacket",
-            price: 80,
-            seller: "Mike Ross",
-            image: "https://via.placeholder.com/200"
-        }
-    ];
+export default function Marketplace() {
+  const [filters, setFilters] = useState({
+    category: "",
+    maxPrice: "",
+    sort: "newest",
+    freeOnly: false,
+  });
 
-    const [filters, setFilters] = useState({});
+  const [products, setProducts] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
+  const [showForm, setShowForm] = useState(false);
 
-    const filteredProducts = sampleProducts.filter((p) => {
-        const categoryMatch =
-            !filters.category || p.title.toLowerCase().includes(filters.category);
-        const priceMatch = !filters.maxPrice || p.price <= filters.maxPrice;
-        return categoryMatch && priceMatch;
+  // ✅ Fetch products from backend
+  useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        setLoading(true);
+        setError("");
+        const res = await fetch("http://localhost:5000/products"); // adjust port if needed
+        if (!res.ok) throw new Error("Failed to fetch products");
+        const data = await res.json();
+        setProducts(data);
+      } catch (err) {
+        setError(err.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchProducts();
+  }, []);
+
+  // ✅ Submit new product to backend
+  const addProduct = async (product) => {
+    try {
+      const res = await fetch("http://localhost:5000/products", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(product),
+      });
+
+      if (!res.ok) throw new Error("Failed to create product");
+
+      const saved = await res.json();
+      setProducts([saved, ...products]);
+      setShowForm(false);
+    } catch (err) {
+      alert("Error: " + err.message);
+    }
+  };
+
+  const filteredProducts = products
+    .filter((p) => (!filters.category || p.category === filters.category))
+    .filter((p) => (!filters.maxPrice || p.free || p.price <= filters.maxPrice))
+    .filter((p) => (!filters.freeOnly || p.free))
+    .sort((a, b) => {
+      if (filters.sort === "priceLowHigh")
+        return (a.free ? 0 : a.price) - (b.free ? 0 : b.price);
+      if (filters.sort === "priceHighLow")
+        return (b.free ? 0 : b.price) - (a.free ? 0 : a.price);
+      return new Date(b.createdAt) - new Date(a.createdAt); // newest first
     });
 
-    return (
-        <main>
-            <div className="marketplace">
-                <h1>Marketplace</h1>
-                <FilterBar onFilter={setFilters} />
-                <div className="product-grid">
-                    {filteredProducts.map((product) => (
-                        <ProductCard key={product.id} product={product} />
-                    ))}
-                </div>
-            </div>
-        </main>
-    );
-}
+  return (
+    <main className="marketplace">
+      <header className="marketplace-header">
+        <h1>Marketplace</h1>
+        <button className="sell-btn" onClick={() => setShowForm(true)}>
+          + Sell / Give Away
+        </button>
+      </header>
 
-export default Marketplace;
+      <div className="marketplace-body">
+        <FilterSidebar filters={filters} setFilters={setFilters} />
+        <section className="product-grid">
+          {loading && <p>Loading products...</p>}
+          {error && <p className="error">{error}</p>}
+          {!loading && !error && filteredProducts.length === 0 && (
+            <p>No products found.</p>
+          )}
+          {!loading &&
+            !error &&
+            filteredProducts.map((p) => <ProductCard key={p._id} product={p} />)}
+        </section>
+      </div>
+
+      {showForm && (
+        <ListingForm onCreate={addProduct} onClose={() => setShowForm(false)} />
+      )}
+    </main>
+  );
+}

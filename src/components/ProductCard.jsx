@@ -1,18 +1,15 @@
 import React from "react";
 
-function ProductCard({ product }) {
+export default function ProductCard({ product }) {
   return (
     <div className="product-card">
-      <img src={product.image} alt={product.title} />
-      <h3>{product.title}</h3>
-      <p>Price: ${product.price}</p>
-      <p>Seller: {product.seller}</p>
-      <div className="actions">
-        <button>View Details</button>
-        <button>Buy Now</button>
+      <img src={product.images[0]} alt={product.title} />
+      <div className="product-info">
+        <h3>{product.title}</h3>
+        <p className="desc">{product.description}</p>
+        <p className={`price ${product.free ? "free" : ""}`}>{product.free ? "Free" : `$${product.price}`}</p>
+        <p className="seller">Seller: {product.sellerName}</p>
       </div>
     </div>
   );
 }
-
-export default ProductCard;
