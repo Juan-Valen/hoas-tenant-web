@@ -1,9 +1,6 @@
 const mongoose = require("mongoose");
 
-const Schema = mongoose.Schema;
-
-const productSchema = new Schema(
-  {
+const productSchema = new mongoose.Schema({
     title: { type: String, required: true },
     description: { type: String },
     price: { type: Number, required: true },
@@ -11,15 +8,7 @@ const productSchema = new Schema(
     sellerName: { type: String, required: true },
     category: { type: String },
     images: [String],
-    status: {
-      type: String,
-      enum: ["Pending", "Approved", "Rejected"],
-      default: "Pending",
-    },
-  },
-  { timestamps: true }
-);
+    status: { type: String, enum: ["Pending","Approved","Rejected"], default: "Approved" }
+}, { timestamps: true });
 
-const Product = mongoose.model("Product", productSchema);
-
-module.exports = Product;
+module.exports = mongoose.model("Product", productSchema);

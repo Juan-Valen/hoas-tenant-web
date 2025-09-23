@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from "react";
-import FilterSidebar from "../components/FilterSidebar";
 import ProductCard from "../components/ProductCard";
 import ListingForm from "../components/ListingForm";
+import FilterSidebar from "../components/FilterSidebar";
 import "../styles/Marketplace.css";
 
 export default function Marketplace() {
   const [products, setProducts] = useState([]);
-  const [filters, setFilters] = useState({ category: "", maxPrice: "", freeOnly: false });
+  const [filteredProducts, setFilteredProducts] = useState([]);
+  const [filters, setFilters] = useState({});
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [showForm, setShowForm] = useState(false);
@@ -16,14 +17,12 @@ export default function Marketplace() {
     const fetchProducts = async () => {
       try {
         setLoading(true);
-        setError("");
-        const res = await fetch("http://localhost:5000/products");
+        const res = await fetch("http://localhost:4000/api/products");
         if (!res.ok) throw new Error("Failed to fetch products");
         const data = await res.json();
         setProducts(data);
       } catch (err) {
-        console.error(err);
-        setError("Could not load products.");
+        setError(err.message);
       } finally {
         setLoading(false);
       }
@@ -31,29 +30,36 @@ export default function Marketplace() {
     fetchProducts();
   }, []);
 
-  // Add new product
+  // Compute filtered products whenever products or filters change
+  useEffect(() => {
+    const filtered = products.filter((p) => {
+      const categoryMatch =
+        !filters.category || p.category === filters.category;
+      const priceMatch = !filters.maxPrice || p.price <= filters.maxPrice;
+      return categoryMatch && priceMatch;
+    });
+    setFilteredProducts(filtered);
+  }, [products, filters]);
+
+  // Extract unique categories
+  const categories = [...new Set(products.map((p) => p.category).filter(Boolean))];
+
+  // Add a new product
   const addProduct = async (product) => {
     try {
-      const res = await fetch("http://localhost:5000/products", {
+      const res = await fetch("http://localhost:4000/api/products", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(product),
       });
       if (!res.ok) throw new Error("Failed to create product");
-      const saved = await res.json();
-      setProducts([saved, ...products]);
+      const newProduct = await res.json();
+      setProducts([newProduct, ...products]);
       setShowForm(false);
     } catch (err) {
-      console.error(err);
-      alert("Error adding product");
+      alert("Error: " + err.message);
     }
   };
-
-  // Apply filters
-  const filteredProducts = products
-    .filter(p => (!filters.category || p.category === filters.category))
-    .filter(p => (!filters.maxPrice || p.free || p.price <= filters.maxPrice))
-    .filter(p => (!filters.freeOnly || p.free));
 
   return (
     <main className="marketplace">
@@ -62,17 +68,25 @@ export default function Marketplace() {
         <button onClick={() => setShowForm(true)}>+ Sell / Give Away</button>
       </header>
 
-      <div className="marketplace-body">
-        <FilterSidebar filters={filters} setFilters={setFilters} />
-        <section className="product-grid">
-          {loading && <p>Loading products...</p>}
-          {error && <p className="error">{error}</p>}
-          {filteredProducts.length === 0 && !loading && <p>No products found</p>}
-          {filteredProducts.map(p => <ProductCard key={p._id} product={p} />)}
-        </section>
+      {loading && <p>Loading...</p>}
+      {error && <p>{error}</p>}
+
+      <div className="marketplace-layout">
+        <FilterSidebar onFilter={setFilters} categories={categories} />
+
+        <div className="product-grid">
+          {filteredProducts.map((p) => (
+            <ProductCard key={p._id} product={p} />
+          ))}
+        </div>
       </div>
 
-      {showForm && <ListingForm onCreate={addProduct} onClose={() => setShowForm(false)} />}
+      {showForm && (
+        <ListingForm
+          onCreate={addProduct}
+          onClose={() => setShowForm(false)}
+        />
+      )}
     </main>
   );
 }

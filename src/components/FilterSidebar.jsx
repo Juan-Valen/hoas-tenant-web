@@ -1,19 +1,32 @@
-import React from "react";
+import React, { useState } from "react";
+import "../styles/Marketplace.css";
 
-export default function FilterSidebar({ filters, setFilters }) {
+export default function FilterSidebar({ onFilter, categories }) {
+  const [selectedCategory, setSelectedCategory] = useState("");
+  const [maxPrice, setMaxPrice] = useState("");
+
+  const handleFilterChange = () => {
+    onFilter({
+      category: selectedCategory,
+      maxPrice: maxPrice ? Number(maxPrice) : null,
+    });
+  };
+
   return (
-    <aside className="filters">
-      <h2>Filters</h2>
+    <div className="filter-sidebar">
+      <h3>Filters</h3>
+
       <label>
         Category:
         <select
-          value={filters.category}
-          onChange={(e) => setFilters({ ...filters, category: e.target.value })}
+          value={selectedCategory}
+          onChange={(e) => setSelectedCategory(e.target.value)}
+          onBlur={handleFilterChange}
         >
           <option value="">All</option>
-          <option value="Electronics">Electronics</option>
-          <option value="Furniture">Furniture</option>
-          <option value="Clothing">Clothing</option>
+          {categories.map((cat, idx) => (
+            <option key={idx} value={cat}>{cat}</option>
+          ))}
         </select>
       </label>
 
@@ -21,36 +34,14 @@ export default function FilterSidebar({ filters, setFilters }) {
         Max Price:
         <input
           type="number"
-          value={filters.maxPrice}
-          onChange={(e) =>
-            setFilters({ ...filters, maxPrice: e.target.value })
-          }
-          placeholder="e.g. 100"
+          value={maxPrice}
+          onChange={(e) => setMaxPrice(e.target.value)}
+          onBlur={handleFilterChange}
+          placeholder="No limit"
         />
       </label>
 
-      <label>
-        Sort By:
-        <select
-          value={filters.sort}
-          onChange={(e) => setFilters({ ...filters, sort: e.target.value })}
-        >
-          <option value="newest">Newest</option>
-          <option value="priceLowHigh">Price: Low to High</option>
-          <option value="priceHighLow">Price: High to Low</option>
-        </select>
-      </label>
-
-      <label className="checkbox-label">
-        <input
-          type="checkbox"
-          checked={filters.freeOnly}
-          onChange={(e) =>
-            setFilters({ ...filters, freeOnly: e.target.checked })
-          }
-        />
-        Show only free items
-      </label>
-    </aside>
+      <button className="btn" onClick={handleFilterChange}>Apply</button>
+    </div>
   );
 }
