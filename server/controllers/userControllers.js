@@ -2,6 +2,7 @@ const User = require('../models/userModel');
 const mongoose = require('mongoose');
 const jwt = require('jsonwebtoken');
 const validator = require('validator');
+const bcrypt = require('bcrypt');
 
 const createToken = (_id) => {
     return jwt.sign({ _id }, process.env.JWT_SECRET, { expiresIn: '3d' });
@@ -172,5 +173,6 @@ module.exports = {
     getUserById,
     createUser,
     updateUser,
-    deleteUser
+    deleteUser,
+    loginUser
 };
