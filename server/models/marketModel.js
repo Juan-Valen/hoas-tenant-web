@@ -5,8 +5,9 @@ const Schema = mongoose.Schema;
 const marketSchema = new Schema(
     {
         owner_id: {
-            type: String,
+            type: mongoose.Schema.Types.ObjectId,
             required: true,
+            ref: 'user',
         },
         title: {
             type: String,
@@ -24,4 +25,6 @@ const marketSchema = new Schema(
     { timestamps: true }
 );
 
-module.exports = mongoose.model("Market", marketSchema);
+const Market = mongoose.model("Market", marketSchema);
+
+module.exports = Market;
