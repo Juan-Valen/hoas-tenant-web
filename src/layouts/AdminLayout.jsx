@@ -12,7 +12,7 @@ function AdminLayout() {
             <li><Link to="/admin">Dashboard</Link></li>
             <li><Link to="/admin/users">Manage Users</Link></li>
             <li><Link to="/admin/marketplace">Marketplace</Link></li>
-            <li><Link to="/admin/housing">Housing</Link></li>
+            <li><Link to="/admin/booking">Booking Resources</Link></li>
             <li><Link to="/admin/announcements">Announcements</Link></li>
             <li><Link to="/admin/reports">Reports</Link></li>
           </ul>
