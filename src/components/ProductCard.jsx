@@ -1,18 +1,15 @@
 import React from "react";
+import "../styles/Marketplace.css";
 
-function ProductCard({ product }) {
+export default function ProductCard({ product }) {
   return (
     <div className="product-card">
-      <img src={product.image} alt={product.title} />
-      <h3>{product.title}</h3>
-      <p>Price: ${product.price}</p>
-      <p>Seller: {product.seller}</p>
-      <div className="actions">
-        <button>View Details</button>
-        <button>Buy Now</button>
-      </div>
+      {product.images[0] && <img src={product.images[0]} alt={product.title} />}
+      <h4>{product.title}</h4>
+      <p>{product.description}</p>
+      <p>Category: {product.category || "N/A"}</p>
+      <p>Seller: {product.sellerName}</p>
+      <p>{product.free ? "Free / Giveaway" : `$${product.price}`}</p>
     </div>
   );
 }
-
-export default ProductCard;
