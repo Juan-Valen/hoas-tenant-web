@@ -11,10 +11,10 @@ import AdminLayout from "./layouts/AdminLayout";
 import AdminHome from "./pages/admin/AdminHome";
 import AdminUsers from "./pages/admin/AdminUsers";
 import AdminMarketplace from "./pages/admin/AdminMarketplace";
-import AdminHousing from "./pages/admin/AdminHousing";
 import AdminAnnouncements from "./pages/admin/AdminAnnouncements.jsx";
 import AdminReports from "./pages/admin/AdminReports";
 import AdminBuildingFacilities from "./pages/admin/AdminBuildingFacilities";
+import AdminBooking from "./pages/admin/AdminBooking.jsx";
 
 function App() {
     return (
@@ -33,7 +33,7 @@ function App() {
                     <Route path="users" element={<AdminUsers />} />
                     <Route path="facilities" element={<AdminBuildingFacilities />} />
                     <Route path="marketplace" element={<AdminMarketplace />} />
-                    <Route path="housing" element={<AdminHousing />} />
+                    <Route path="booking" element={<AdminBooking />} />
                     <Route path="announcements" element={<AdminAnnouncements />} />
                     <Route path="reports" element={<AdminReports />} />
                 </Route>

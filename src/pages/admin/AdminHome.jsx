@@ -5,7 +5,7 @@ function AdminHome() {
   const cards = [
     { id: 1, title: "Manage Users", link: "/admin/users" },
     { id: 2, title: "Marketplace Items", link: "/admin/marketplace" },
-    { id: 3, title: "Housing Management", link: "/admin/housing" },
+    { id: 3, title: "Manage Booking", link: "/admin/booking" },
     { id: 4, title: "Announcements", link: "/admin/announcements" },
     { id: 5, title: "Reports", link: "/admin/reports" },
     { id: 6, title: "Building Facilities", link: "/admin/facilities" },
