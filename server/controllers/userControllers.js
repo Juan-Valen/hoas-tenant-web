@@ -27,9 +27,9 @@ const getUserById = async (req, res) => {
     }
 
     try {
-        const deletedUser = await User.findById(userId);
-        if (deletedUser) {
-            res.status(204).send(); // 204 No Content
+        const user = await User.findById(userId);
+        if (user) {
+            res.status(200).json(user); // Return the user data with 200 OK
         } else {
             res.status(404).json({ message: "User not found" });
         }
@@ -115,7 +115,7 @@ const loginUser = async (req, res) => {
 // PUT /users/:userId
 const updateUser = async (req, res) => {
     const { userId } = req.params;
-    const { password } = req.body
+    const { password, updated_password } = req.body;
 
     if (!mongoose.Types.ObjectId.isValid(userId)) {
         return res.status(400).json({ message: "Invalid user ID" });
@@ -123,26 +123,37 @@ const updateUser = async (req, res) => {
 
     try {
         const user = await User.findById(userId);
-
-        if (user.password !== password) {
-            return res.status(401).json({ message: "invalid login credentials" })
+        
+        if (!user) {
+            return res.status(404).json({ message: "User not found" });
         }
 
-        const updateUser = await User.findOneAndUpdate(
+        // Compare the provided password with the stored hashed password
+        const isPasswordValid = await bcrypt.compare(password, user.password);
+        if (!isPasswordValid) {
+            return res.status(401).json({ message: "Invalid current password" });
+        }
+
+        // Prepare update object
+        const updateData = {
+            name: req.body.name,
+            email: req.body.email,
+            status: req.body.status,
+        };
+
+        // If a new password is provided, hash it before storing
+        if (updated_password) {
+            const salt = await bcrypt.genSalt(10);
+            updateData.password = await bcrypt.hash(updated_password, salt);
+        }
+
+        const updatedUser = await User.findOneAndUpdate(
             { _id: userId },
-            {
-                name: req.body.name,
-                email: req.body.email,
-                password: req.body.updated_password,
-                status: req.body.status,
-            },
+            updateData,
             { new: true }
         );
-        if (updateUser) {
-            res.status(200).json(updateUser);
-        } else {
-            res.status(404).json({ message: "User not found" });
-        }
+
+        res.status(200).json(updatedUser);
     } catch (error) {
         res.status(500).json({ message: "Failed to update User" });
     }

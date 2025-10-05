@@ -20,9 +20,9 @@ const getSpaceById = async (req, res) => {
     }
 
     try {
-        const deletedSpace = await Space.findById(spaceId);
-        if (deletedSpace) {
-            res.status(204).send(); // 204 No Content
+        const space = await Space.findById(spaceId);
+        if (space) {
+            res.status(200).json(space); // Return the space data with 200 OK
         } else {
             res.status(404).json({ message: "Space not found" });
         }
@@ -51,7 +51,7 @@ const createSpace = async (req, res) => {
 const updatedSpace = async (req, res) => {
     const { spaceId } = req.params;
 
-    if (!mongoose.Types.spaceId.isValid(spaceId)) {
+    if (!mongoose.Types.ObjectId.isValid(spaceId)) {
         return res.status(400).json({ message: "Invalid space ID" });
     }
 
