@@ -1,60 +1,63 @@
 import React, { useState, useEffect } from "react";
-import ProductCard from "../components/ProductCard";
-import ListingForm from "../components/ListingForm";
+import MarketCard from "../components/MarketCard";
+import MarketForm from "../components/MarketForm";
 import FilterSidebar from "../components/FilterSidebar";
 import "../styles/Marketplace.css";
 
-export default function Marketplace() {
-  const [products, setProducts] = useState([]);
-  const [filteredProducts, setFilteredProducts] = useState([]);
+export default function Marketplace({ userId }) {
+  const [markets, setMarkets] = useState([]);
+  const [filteredMarkets, setFilteredMarkets] = useState([]);
   const [filters, setFilters] = useState({});
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [showForm, setShowForm] = useState(false);
 
-  // Fetch products from backend
+  // Fetch markets from backend
   useEffect(() => {
-    const fetchProducts = async () => {
+    const fetchMarkets = async () => {
       try {
         setLoading(true);
-        const res = await fetch("http://localhost:4000/api/products");
-        if (!res.ok) throw new Error("Failed to fetch products");
+        const res = await fetch("/api/markets");
+        if (!res.ok) throw new Error("Failed to fetch markets");
         const data = await res.json();
-        setProducts(data);
+        setMarkets(data);
       } catch (err) {
         setError(err.message);
       } finally {
         setLoading(false);
       }
     };
-    fetchProducts();
+    fetchMarkets();
   }, []);
 
-  // Compute filtered products whenever products or filters change
+  // Filter markets by maxPrice
   useEffect(() => {
-    const filtered = products.filter((p) => {
-      const categoryMatch =
-        !filters.category || p.category === filters.category;
-      const priceMatch = !filters.maxPrice || p.price <= filters.maxPrice;
-      return categoryMatch && priceMatch;
+    const filtered = markets.filter((m) => {
+      return !filters.maxPrice || m.price <= filters.maxPrice;
     });
-    setFilteredProducts(filtered);
-  }, [products, filters]);
+    setFilteredMarkets(filtered);
+  }, [markets, filters]);
 
-  // Extract unique categories
-  const categories = [...new Set(products.map((p) => p.category).filter(Boolean))];
+  // Add a new market
+  const addMarket = async (market) => {
+    if (!userId) {
+      return alert("User not logged in. Cannot create market item.");
+    }
 
-  // Add a new product
-  const addProduct = async (product) => {
     try {
-      const res = await fetch("http://localhost:4000/api/products", {
+      const res = await fetch("/api/markets", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(product),
+        body: JSON.stringify({ ...market, owner_id: userId }),
       });
-      if (!res.ok) throw new Error("Failed to create product");
-      const newProduct = await res.json();
-      setProducts([newProduct, ...products]);
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        throw new Error(data.message || "Failed to create market");
+      }
+
+      setMarkets([data, ...markets]);
       setShowForm(false);
     } catch (err) {
       alert("Error: " + err.message);
@@ -65,27 +68,27 @@ export default function Marketplace() {
     <main className="marketplace">
       <header className="marketplace-header">
         <h1>Marketplace</h1>
-        <button onClick={() => setShowForm(true)}>+ Sell / Give Away</button>
+        <button onClick={() => setShowForm(true)}>+ List Item</button>
       </header>
 
       {loading && <p>Loading...</p>}
       {error && <p>{error}</p>}
 
       <div className="marketplace-layout">
-        <FilterSidebar onFilter={setFilters} categories={categories} />
+        <FilterSidebar onFilter={setFilters} />
 
-        <div className="product-grid">
-          {filteredProducts.map((p) => (
-            <ProductCard key={p._id} product={p} />
+        <div className="market-grid">
+          {filteredMarkets.length === 0 && !loading && (
+            <p>No items match your filters.</p>
+          )}
+          {filteredMarkets.map((m) => (
+            <MarketCard key={m._id} market={m} />
           ))}
         </div>
       </div>
 
       {showForm && (
-        <ListingForm
-          onCreate={addProduct}
-          onClose={() => setShowForm(false)}
-        />
+        <MarketForm onCreate={addMarket} onClose={() => setShowForm(false)} />
       )}
     </main>
   );
