@@ -8,6 +8,13 @@ const createToken = (_id) => {
     return jwt.sign({ _id }, process.env.JWT_SECRET, { expiresIn: '3d' });
 }
 
+const createCookie = async (_id) => {
+    const user = await User.findOne({ _id });
+    const token = createToken(user._id);
+    const cookie = { id: user._id, status: user.status, email: user.email, token };
+    return cookie;
+}
+
 // GET api/users
 const getAllUsers = async (req, res) => {
     try {
@@ -66,11 +73,8 @@ const createUser = async (req, res) => {
         const salt = await bcrypt.genSalt(10);
         const hash = await bcrypt.hash(password, salt);
 
-        const newUser = await User.create({ name, email, password: hash, status });
-
-        // Create a token
-        const token = createToken(newUser._id);
-        res.status(201).json({ email, token });
+        await User.create({ name, email, password: hash, status });
+        res.status(201).json();
 
     } catch (error) {
         console.error(error)
@@ -102,18 +106,19 @@ const loginUser = async (req, res) => {
             return res.status(400).json({ message: "invalid login credentials" })
         }
 
-        const token = createToken(user._id);
-        res.status(200).json({ email, token });
+        const cookie = await createCookie(user._id);
+        res.status(200).json(cookie);
 
     } catch (error) {
+        console.error(error.message);
         res
-        .status(500)
-        .json({ message: "Failed to login user" });
+            .status(500)
+            .json({ message: "Failed to login user" });
     }
 };
 
 // PUT /users/:userId
-const updateUser = async (req, res) => {
+const updatePassword = async (req, res) => {
     const { userId } = req.params;
     const { password } = req.body
 
@@ -124,22 +129,87 @@ const updateUser = async (req, res) => {
     try {
         const user = await User.findById(userId);
 
-        if (user.password !== password) {
+        const match = await bcrypt.compare(password, user.password);
+        if (!match) {
             return res.status(401).json({ message: "invalid login credentials" })
         }
 
         const updateUser = await User.findOneAndUpdate(
             { _id: userId },
             {
+                password: req.body.updated_password,
+            },
+            { new: true }
+        );
+        if (updateUser) {
+            res.status(200).json(updateUser);
+        } else {
+            res.status(404).json({ message: "User not found" });
+        }
+    } catch (error) {
+        res.status(500).json({ message: "Failed to update Password" });
+    }
+};
+
+// PUT /users/:userId
+const updateUser = async (req, res) => {
+    const { userId } = req.params;
+
+    if (!mongoose.Types.ObjectId.isValid(userId)) {
+        return res.status(400).json({ message: "Invalid user ID" });
+    }
+
+    try {
+        const user = await User.findById(userId);
+
+        const updateUser = await User.findOneAndUpdate(
+            { _id: userId },
+            {
                 name: req.body.name,
                 email: req.body.email,
-                password: req.body.updated_password,
                 status: req.body.status,
             },
             { new: true }
         );
         if (updateUser) {
             res.status(200).json(updateUser);
+        } else {
+            res.status(404).json({ message: "User not found" });
+        }
+    } catch (error) {
+        res.status(500).json({ message: "Failed to update User" });
+    }
+};
+function generatePassword() {
+    var length = 10,
+        charset = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789",
+        retVal = "";
+    for (var i = 0, n = charset.length; i < length; ++i) {
+        retVal += charset.charAt(Math.floor(Math.random() * n));
+    }
+    return retVal;
+}
+
+// PUT /users/:userId
+const resetPassword = async (req, res) => {
+    const { userId } = req.params;
+
+    if (!mongoose.Types.ObjectId.isValid(userId)) {
+        return res.status(400).json({ message: "Invalid user ID" });
+    }
+
+    try {
+        const password = generatePassword();
+
+        const updateUser = await User.findOneAndUpdate(
+            { _id: userId },
+            {
+                password: password
+            },
+            { new: true }
+        );
+        if (updateUser) {
+            res.status(200).json(password);
         } else {
             res.status(404).json({ message: "User not found" });
         }
@@ -173,6 +243,8 @@ module.exports = {
     getUserById,
     createUser,
     updateUser,
+    resetPassword,
+    updatePassword,
     deleteUser,
     loginUser
 };
