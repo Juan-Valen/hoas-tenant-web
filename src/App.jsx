@@ -1,5 +1,5 @@
 
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 
 import Layout from "./layouts/Layout";
 import NotFound from "./pages/NotFound";
@@ -15,20 +15,22 @@ import AdminAnnouncements from "./pages/admin/AdminAnnouncements.jsx";
 import AdminReports from "./pages/admin/AdminReports";
 import AdminBuildingFacilities from "./pages/admin/AdminBuildingFacilities";
 import AdminBooking from "./pages/admin/AdminBooking.jsx";
+import { useAuthContext } from "./contexts/AuthContext.jsx";
 
 function App() {
+    const { isAuthenticated } = useAuthContext();
     return (
         <BrowserRouter>
             <Routes>
                 {/* Main site */}
-                <Route path="/" element={<Layout />}>
+                <Route path="/" element={isAuthenticated ? <Layout /> : <Navigate to="/login" />}>
                     <Route index element={<Home />} />
                     <Route path="marketplace" element={<Marketplace />} />
                     <Route path='booking' element={<BookingPage />} />
                 </Route>
 
                 {/* Admin site */}
-                <Route path="/admin" element={<AdminLayout />}>
+                <Route path="/admin" element={isAuthenticated && isAuthenticated.status != 0 ? <AdminLayout /> : <Navigate to="/login" />}>
                     <Route index element={<AdminHome />} />
                     <Route path="users" element={<AdminUsers />} />
                     <Route path="facilities" element={<AdminBuildingFacilities />} />
@@ -38,7 +40,7 @@ function App() {
                     <Route path="reports" element={<AdminReports />} />
                 </Route>
 
-                <Route path="/login" element={<LoginPage />} />
+                <Route path="/login" element={isAuthenticated ? <Navigate to="/" /> : <LoginPage />} />
                 <Route path="*" element={<NotFound />} />
             </Routes>
         </BrowserRouter>
