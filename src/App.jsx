@@ -15,6 +15,7 @@ import AdminReports from "./pages/admin/AdminReports";
 import AdminBuildingFacilities from "./pages/admin/AdminBuildingFacilities";
 import AdminBooking from "./pages/admin/AdminBooking.jsx";
 import { useAuthContext } from "./contexts/AuthContext.jsx";
+import UpdatePassword from "./pages/UpdatePassword.jsx";
 
 function App() {
     const { isAuthenticated } = useAuthContext();
@@ -23,6 +24,7 @@ function App() {
             <Routes>
                 {/* Main site */}
                 <Route path="/" element={isAuthenticated ? <Layout /> : <Navigate to="/login" />}>
+                    <Route path="/update-password" element={<UpdatePassword />} />
                     <Route index element={<Home />} />
                     <Route path="marketplace" element={<Marketplace />} />
                     <Route path='booking' element={<BookingPage />} />
