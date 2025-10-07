@@ -6,13 +6,17 @@ const {
     createUser,
     loginUser,
     updateUser,
-    deleteUser
+    deleteUser,
+    updatePassword,
+    resetPassword
 } = require("../controllers/userControllers")
 
 router.get('/', getAllUsers);
 router.get('/:userId', getUserById)
 router.post('/', createUser)
 router.post('/login', loginUser)
+router.put('/password/', updatePassword)
+router.put('/password/reset/:userId', resetPassword)
 router.put('/:userId', updateUser)
 router.delete('/:userId', deleteUser)
 

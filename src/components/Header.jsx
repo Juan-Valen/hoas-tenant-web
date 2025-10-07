@@ -1,8 +1,8 @@
-import React from "react";
 import { Link } from "react-router-dom";
-import logo from "../assets/images/hoas.svg"
+import { useAuthContext } from "../contexts/AuthContext";
 
 function Header() {
+    const { isAuthenticated, setIsAuthenticated } = useAuthContext();
     return (
         <header className="header">
             <Link to="/">
@@ -47,7 +47,12 @@ function Header() {
                 <Link to='/forms'>Forms</Link>
                 <Link to='/booking'>Booking</Link>
 
-                <Link to='/login' className="login">Login</Link>
+                {isAuthenticated && (
+                    <button onClick={() => {
+                        localStorage.removeItem("user");
+                        setIsAuthenticated(false);
+                    }}>Logout</button>
+                )}
             </nav>
         </header>
     );

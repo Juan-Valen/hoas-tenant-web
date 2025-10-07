@@ -1,10 +1,12 @@
 import React, { useState } from "react";
 import "../styles/LoginPage.css";
 import { Navigate } from "react-router-dom";
+import useLogin from "../hooks/useLogin";
 
 function LoginPage() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const { login } = useLogin();
 
     // Email validation
     const isValidEmail = (email) => /\S+@\S+\.\S+/.test(email);
@@ -15,11 +17,8 @@ function LoginPage() {
 
     const onSubmit = (e) => {
         e.preventDefault();
-
-        console.log(email);
-        console.log(password);
+        login({ email, password });
         // Reset the form state.
-        setEmail('');
         setPassword('');
     }
 

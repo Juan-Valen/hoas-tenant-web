@@ -1,3 +1,5 @@
+const Item = require('../models/itemModel');
+const Space = require('../models/spaceModel');
 const Reservation = require('../models/reservationModel');
 const mongoose = require('mongoose');
 
@@ -8,6 +10,23 @@ const getAllReservations = async (req, res) => {
     try {
         const reservations = await Reservation.find({}).sort({ createdAt: -1 });
         res.status(200).json(reservations);
+    } catch (error) {
+        res.status(500).json({ message: ("failed to retrieve reservations: " + error.message) });
+    }
+};
+
+// POST /api/reservables
+const getReservables = async (req, res) => {
+    const { type } = req.body;
+    try {
+        var reservables;
+        if (type == "sauna" || type == "clubroom") {
+            reservables = await Space.find({ type: type, reservable: true }, "_id identifier maintenance").sort({ createdAt: -1 });
+        }
+        if (type == "washing machine" || type == "dryer") {
+            reservables = await Item.find({ type: type, reservable: true }, "_id identifier maintenance").sort({ createdAt: -1 });
+        }
+        res.status(200).json(reservables);
     } catch (error) {
         res.status(500).json({ message: ("failed to retrieve reservations: " + error.message) });
     }
@@ -153,6 +172,7 @@ const getFullSlots = async (req, res) => {
 
 module.exports = {
     getAllReservations,
+    getReservables,
     createReservation,
     getReservationById,
     updateReservation,

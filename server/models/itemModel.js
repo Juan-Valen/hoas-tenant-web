@@ -10,14 +10,20 @@ const itemSchema = new Schema(
         },
         type: {
             type: String,
-            required: true
+            enum: ['washing machine', 'dryer', 'utility', 'other'],
+            required: true,
+        },
+        maintenance: {
+            type: Number,
+            enum: [0/*Everything okay*/, 1/*Under maintenance*/, 2/*Damaged*/],
+            required: true,
+        },
+        resevable: {
+            type: Boolean,
+            required: false,
         },
         identifier: {
             type: String,
-            required: true,
-        },
-        status: {
-            type: Number,
             required: true,
         },
         created_by: {

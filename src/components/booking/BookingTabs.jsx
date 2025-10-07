@@ -2,7 +2,7 @@ import React from "react";
 import "./BookingTabs.css";
 
 export default function BookingTabs({ activeTab, setActiveTab }) {
-  const tabs = ["laundry", "sauna", "clubroom"];
+  const tabs = ["washing machine", "dryer", "sauna", "clubroom"];
 
   return (
     <div className="booking-tabs-header">
