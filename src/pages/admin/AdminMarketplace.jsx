@@ -5,19 +5,19 @@ function AdminMarketplace() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
-  // Fetch all products
+  // Fetch all market items
   useEffect(() => {
     const fetchItems = async () => {
       try {
         setLoading(true);
         setError("");
-        const res = await fetch("http://localhost:5000/products");
-        if (!res.ok) throw new Error("Failed to fetch products");
+        const res = await fetch("/api/markets");
+        if (!res.ok) throw new Error("Failed to fetch markets");
         const data = await res.json();
         setItems(data);
       } catch (err) {
         console.error(err);
-        setError("Could not load products.");
+        setError("Could not load markets.");
       } finally {
         setLoading(false);
       }
@@ -48,7 +48,7 @@ function AdminMarketplace() {
     if (!confirmDelete) return;
 
     try {
-      const res = await fetch(`http://localhost:5000/products/${id}`, {
+      const res = await fetch(`/api/markets/${id}`, {
         method: "DELETE",
       });
       if (!res.ok) throw new Error("Failed to delete item");
