@@ -8,6 +8,10 @@ const itemSchema = new Schema(
             type: String,
             required: true,
         },
+        location: {
+            type: String,
+            required: false,
+        },
         type: {
             type: String,
             enum: ['washing machine', 'dryer', 'utility', 'other'],

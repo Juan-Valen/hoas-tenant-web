@@ -4,9 +4,15 @@ const Schema = mongoose.Schema;
 
 const reservationSchema = new Schema(
     {
-        reserved_id: {
+        reserved_type: {
             type: String,
+            enum: ["Item", "Space"],
             required: true,
+        },
+        reserved_id: {
+            type: mongoose.Schema.Types.ObjectId,
+            required: true,
+            refPath: "reserved_type"
         },
         start: {
             type: Date,
@@ -16,11 +22,12 @@ const reservationSchema = new Schema(
         end: {
             type: Date,
             required: true,
-             get: v => v.toISOString(),
+            get: v => v.toISOString(),
         },
         reserved_by: {
-            type: String,
+            type: mongoose.Schema.Types.ObjectId,
             required: true,
+            ref: 'User', // Referencing the User model
         },
     },
     { timestamps: true }
