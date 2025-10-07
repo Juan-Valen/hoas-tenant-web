@@ -7,7 +7,7 @@ const marketSchema = new Schema(
         owner_id: {
             type: mongoose.Schema.Types.ObjectId,
             required: true,
-            ref: 'user',
+            ref: 'User',
         },
         title: {
             type: String,

@@ -180,7 +180,7 @@ const deleteReservation = async (req, res) => {
 };
 
 // GET /api/reservations/freeslots/:reserved_id/:start/:end
-const getReservedSlots = async (req, res) => {
+const getFullSlots = async (req, res) => {
     const { reserved_id } = req.params;
     const { start, end } = req.body
 
@@ -219,5 +219,5 @@ module.exports = {
     getReservationByUserId,
     updateReservation,
     deleteReservation,
-    getReservedSlots
+    getFullSlots
 };

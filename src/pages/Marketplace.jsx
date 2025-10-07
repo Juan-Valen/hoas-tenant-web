@@ -4,7 +4,7 @@ import MarketForm from "../components/MarketForm";
 import FilterSidebar from "../components/FilterSidebar";
 import "../styles/Marketplace.css";
 
-export default function Marketplace({ userId }) {
+export default function Marketplace({ }) {
   const [markets, setMarkets] = useState([]);
   const [filteredMarkets, setFilteredMarkets] = useState([]);
   const [filters, setFilters] = useState({});
@@ -29,7 +29,7 @@ export default function Marketplace({ userId }) {
     };
     fetchMarkets();
   }, []);
-
+  
   // Filter markets by maxPrice
   useEffect(() => {
     const filtered = markets.filter((m) => {
@@ -40,21 +40,36 @@ export default function Marketplace({ userId }) {
 
   // Add a new market
   const addMarket = async (market) => {
-    if (!userId) {
-      return alert("User not logged in. Cannot create market item.");
+
+    console.log("Adding market:", market);
+    // Debug: Log all formData entries if market is FormData
+    if (market instanceof FormData) {
+      for (let pair of market.entries()) {
+        console.log(pair[0], pair[1]);
+      }
     }
 
     try {
-      const res = await fetch("/api/markets", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ ...market, owner_id: userId }),
-      });
+      let res;
+      if (market instanceof FormData) {
+        res = await fetch("/api/markets", {
+          method: "POST",
+          body: market,
+        });
+      } else {
+        res = await fetch("/api/markets", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(market),
+        });
+      }
 
-      const data = await res.json();
+      const response = await res.json();
+      const data = response.market;
 
       if (!res.ok) {
         throw new Error(data.message || "Failed to create market");
+        console.error("Error details:", data);
       }
 
       setMarkets([data, ...markets]);

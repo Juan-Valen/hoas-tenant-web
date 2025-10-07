@@ -31,7 +31,9 @@ const upload = multer({
 // GET api/markets
 const getAllMarkets = async (req, res) => {
     try {
-        const markets = await Market.find({}).sort({ createdAt: -1 });
+        const markets = await Market.find({})
+        .sort({ createdAt: -1 })
+        .populate('owner_id', 'name');
         res.status(200).json(markets);
     } catch (error) {
         res.status(500).json({ message: ("failed to retrieve reservations: " + error.message) });
@@ -130,6 +132,7 @@ const createMarket = async (req, res) => {
                         });
                     }
                 } else {
+                    console.log("Images rejected by analysis:", imageAnalysis);
                     // Images rejected - track for user feedback
                     req.files.forEach(file => {
                         rejectedImages.push({

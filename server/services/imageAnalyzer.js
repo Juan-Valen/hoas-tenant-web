@@ -18,8 +18,8 @@ async function analyzeMarketImages(imageFiles) {
   }));
   
   const prompt = `
-    You are analyzing ${imageArray.length} image(s) for a marketplace listing to ensure they're appropriate and relevant.
-    You are then providing a brief description of the items.
+    You are analyzing ${imageArray.length} image(s) for a secondhand marketplace listing to ensure they're appropriate and relevant.
+    You are then providing a brief description of the items. The images may various items, not necessarily related or multiple angles of the same item.
     
     Evaluate ALL images based on these criteria:
     1. **Content Appropriateness**: No inappropriate, offensive, or explicit content
