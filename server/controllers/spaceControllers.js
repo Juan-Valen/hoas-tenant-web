@@ -20,9 +20,9 @@ const getSpaceById = async (req, res) => {
     }
 
     try {
-        const deletedSpace = await Space.findById(spaceId);
-        if (deletedSpace) {
-            res.status(204).send(); // 204 No Content
+        const space = await Space.findById(spaceId);
+        if (space) {
+            res.status(200).send(space); // 204 No Content
         } else {
             res.status(404).json({ message: "Space not found" });
         }

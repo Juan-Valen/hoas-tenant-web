@@ -4,21 +4,27 @@ const Schema = mongoose.Schema;
 
 const spaceSchema = new Schema(
     {
-        room_number: {
+        identifier/*room_number*/: {
             type: String,
             required: true,
         },
         type: {
             type: String,
+            enum: ['clubroom', 'sauna', 'utility', 'other'],
             required: true,
         },
         maintenance: {
             type: Number,
+            enum: [0/*Everything okay*/, 1/*Under maintenance*/, 2/*Damaged*/],
+            required: true,
+        },
+        reservable: {
+            type: Boolean,
             required: true,
         },
         description: {
-            type: Number,
-            required: true,
+            type: String,
+            required: false,
         },
         created_by: {
             type: mongoose.Schema.Types.ObjectId,
