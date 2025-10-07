@@ -34,9 +34,9 @@ const getUserById = async (req, res) => {
     }
 
     try {
-        const user = await User.findById(userId, "_id name email status");
+        const user = await User.findById(userId);
         if (user) {
-            res.status(200).send(user); // 204 No Content
+            res.status(200).json(user); // Return the user data with 200 OK
         } else {
             res.status(404).json({ message: "User not found" });
         }
@@ -164,7 +164,7 @@ const updateUser = async (req, res) => {
 
     try {
 
-        const updateUser = await User.findOneAndUpdate(
+        const updatedUser = await User.findOneAndUpdate(
             { _id: userId },
             {
                 name: req.body.name,
@@ -173,11 +173,8 @@ const updateUser = async (req, res) => {
             },
             { new: true }
         );
-        if (updateUser) {
-            res.status(200).json(updateUser);
-        } else {
-            res.status(404).json({ message: "User not found" });
-        }
+
+        res.status(200).json(updatedUser);
     } catch (error) {
         res.status(500).json({ message: "Failed to update User" });
     }
@@ -220,7 +217,6 @@ const resetPassword = async (req, res) => {
     } catch (error) {
         res.status(500).json({ message: "Failed to update User" });
     }
-};
 
 // DELETE /users/:userId
 const deleteUser = async (req, res) => {

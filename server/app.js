@@ -35,9 +35,8 @@ app.use("/api/markets", marketRouter);
 // Use the userRouter for all /users routes
 app.use("/api/users", userRouter)
 
-// Use the itemRouter for all /cars routes
+// Use the itemRouter for all /items routes
 app.use("/api/items", itemRouter);
-// Use the marketRouter for all /cars routes
 
 // Use the reservationRouter for all /reservations routes
 app.use("/api/reservations", reservationRouter);
