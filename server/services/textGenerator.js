@@ -1,34 +1,37 @@
-const { checkText } = require("../services/textChecker")
+const { checkText } = require("../services/textChecker");
 
 async function generateText(description) {
     try {
-        if (description !== "") {
-            const rawResponse = await checkText(description);
+        if (!description) return false;
 
-            // Try to extract JSON from markdown fences
-            const jsonMatch = rawResponse.match(/```json\s*([\s\S]*?)\s*```/);
-            const jsonString = jsonMatch ? jsonMatch[1] : rawResponse;
-            if (process.env.DEBUG_GEMINI === "true") {
-                console.log(jsonString);
-            }
+        const rawResponse = await checkText(description);
 
-            let parsedPlan;
-            try {
-                parsedPlan = JSON.parse(jsonString);
-            } catch (err) {
-                return res.status(500).json({ error: "Error parsing JSON response." });
-            }
-
-            if (parsedPlan.Answer == "yes") {
-                return true
-            }
-            return false
+        // Try to extract JSON from markdown fences
+        const jsonMatch = rawResponse && rawResponse.match
+            ? rawResponse.match(/```json\s*([\s\S]*?)\s*```/)
+            : null;
+        const jsonString = jsonMatch ? jsonMatch[1] : rawResponse;
+        if (process.env.DEBUG_GEMINI === "true") {
+            console.log(jsonString);
         }
-    } catch (err) {
-        console.error("Error in fitnessController:", err);
-        res.status(500).json({ message: "Internal server error", error: err.message });
-    }
 
+        let parsedPlan;
+        try {
+            parsedPlan = JSON.parse(jsonString);
+        } catch (err) {
+            console.error("Error parsing JSON response:", err);
+            return false; // Return false on JSON parsing error
+        }
+
+        return (
+            parsedPlan &&
+            typeof parsedPlan.Answer === "string" &&
+            parsedPlan.Answer.toLowerCase() === "yes"
+        );
+    } catch (err) {
+        console.error("Error in generateText:", err);
+        return false; // Return false on internal error
+    }
 }
 
 module.exports = { generateText };

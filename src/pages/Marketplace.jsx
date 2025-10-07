@@ -21,9 +21,9 @@ export default function Marketplace() {
       try {
         setLoading(true);
         const res = await fetch("/api/markets");
-        if (!res.ok) throw new Error("Failed to fetch markets");
-        const data = await res.json();
-        setMarkets(data);
+  if (!res.ok) throw new Error("Failed to fetch markets");
+  const data = await res.json();
+  setMarkets(data);
       } catch (err) {
         setError(err.message);
       } finally {

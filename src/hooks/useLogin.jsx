@@ -21,8 +21,9 @@ export default function useLogin() {
         }
 
         // localStorage.setItem("token", user.token);
-        localStorage.setItem("user", JSON.stringify(user));
-        setIsAuthenticated(true);
+    localStorage.setItem("user", JSON.stringify(user));
+    // store the full user object in context so components can read id/status/token
+    setIsAuthenticated(user);
         setIsLoading(false);
     };
 
