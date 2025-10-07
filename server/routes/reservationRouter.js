@@ -11,7 +11,7 @@ const {
 } = require('../controllers/reservationControllers');
 
 router.get('/', getAllReservations);
-router.get('/reservables', getReservables);
+router.post('/reservables', getReservables);
 router.post('/', createReservation);
 router.get('/:reservationId', getReservationById);
 router.put('/:reservationId', updateReservation);

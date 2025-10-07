@@ -15,7 +15,7 @@ const getAllReservations = async (req, res) => {
     }
 };
 
-// GET /api/reservables
+// POST /api/reservables
 const getReservables = async (req, res) => {
     const { type } = req.body;
     try {
