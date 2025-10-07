@@ -1,27 +1,43 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import "../styles/Marketplace.css";
 
 export default function MarketCard({ market }) {
-  if (!market) return null;
+  const [imageUrls, setImageUrls] = useState([]);
 
-  const title = market.title || "Untitled Item";
-  const description = market.description || "No description provided.";
-  const price = market.price != null ? market.price : "N/A";
-  const ownerId = market.owner_id || "Unknown";
-  const createdAt = market.createdAt
-    ? new Date(market.createdAt).toLocaleDateString("en-GB") // => "7/10/2025"
-    : "N/A";
+  useEffect(() => {
+    async function fetchImages() {
+      // Get image metadata
+      const res = await fetch(`/api/markets/${market._id}/images`);
+      if (!res.ok) return;
+      const images = await res.json();
 
-  // Convert "7/10/2025" → "7.10.2025"
-  const formattedDate = createdAt.replace(/\//g, ".");
+      // Get image files and create URLs
+      const urls = await Promise.all(
+        images.map(async (img) => {
+          const imgRes = await fetch(`/api/markets/${market._id}/images/${img.id}`);
+          const blob = await imgRes.blob();
+          return URL.createObjectURL(blob);
+        })
+      );
+      setImageUrls(urls);
+    }
+
+    fetchImages();
+  }, [market._id]);
 
   return (
     <div className="market-card">
-      <h4>{title}</h4>
-      <p>{description}</p>
-      <p>Price: ${price}</p>
-      <p>Owner ID: {ownerId}</p>
-      <p>Created At: {formattedDate}</p>
+      <h4>{market.title}</h4>
+      <p>{market.description}</p>
+      <p>Price: ${market.price}</p>
+      {/* <p>Owner ID: {market.owner_id}</p> */}
+      <p>Owner: {market.owner_id?.name || "Unknown"}</p>
+      <p>Created At: {new Date(market.createdAt).toLocaleDateString()}</p>
+      <div className="market-images">
+        {imageUrls.map((src, idx) => (
+          <img key={idx} src={src} alt={`Market ${market.title} Image ${idx + 1}`} style={{ width: 100, borderRadius: 8 }} />
+        ))}
+      </div>
     </div>
   );
 }
