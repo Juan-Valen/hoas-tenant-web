@@ -37,6 +37,33 @@ export default function MarketForm({ onCreate, onClose }) {
     setPreviews(previews.filter((_, i) => i !== idx));
   };
 
+  const handleAnalyzeImages = async () => {
+    if (images.length === 0) {
+      alert("Please select images to analyze.");
+      return;
+    }
+
+    try {
+      const formData = new FormData();
+      images.forEach((img) => formData.append("images", img));
+
+      const res = await fetch("/api/markets/analyze-images", {
+        method: "POST",
+        body: formData,
+      });
+
+      if (!res.ok) throw new Error("Failed to analyze images");
+
+      const data = await res.json();
+      console.log("Image analysis results:", data);
+      if (data.description) {
+        setDescription(data.description);
+      }
+    } catch (error) {
+      console.error("Error analyzing images:", error);
+    }
+  };
+
   // Handle form submit
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -86,6 +113,13 @@ export default function MarketForm({ onCreate, onClose }) {
 
           <label>
             Description*:
+            {images.length > 0 && (
+              <>
+              <br />
+                {/* Add the button above the description box */}
+                <button type="button" onClick={handleAnalyzeImages} style={{ marginBottom: 8 }}>AI Analyze</button>
+              </>
+            )}
             <textarea
               value={description}
               onChange={(e) => setDescription(e.target.value)}

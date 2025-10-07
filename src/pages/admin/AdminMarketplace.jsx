@@ -70,7 +70,7 @@ export default function AdminMarketplace() {
                 <td>{item.title}</td>
                 <td>{item.description}</td>
                 <td>${item.price}</td>
-                <td>{item.owner_id}</td>
+                <td>{item.owner_id?.name || "Unknown"}</td>
                 <td>{new Date(item.createdAt).toLocaleDateString()}</td>
                 <td>
                   <button onClick={() => deleteMarket(item._id)}>Delete</button>
