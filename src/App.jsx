@@ -1,4 +1,3 @@
-
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 
 import Layout from "./layouts/Layout";
@@ -30,7 +29,7 @@ function App() {
                 </Route>
 
                 {/* Admin site */}
-                <Route path="/admin" element={isAuthenticated && isAuthenticated.status != 0 ? <AdminLayout /> : <Navigate to="/login" />}>
+                <Route path="/admin" element={isAuthenticated && isAuthenticated.status == 2 ? <AdminLayout /> : <Navigate to="/login" />}>
                     <Route index element={<AdminHome />} />
                     <Route path="users" element={<AdminUsers />} />
                     <Route path="facilities" element={<AdminBuildingFacilities />} />
