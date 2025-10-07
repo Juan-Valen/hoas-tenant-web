@@ -45,14 +45,34 @@ const importData = async () => {
         console.log("🏠 Seeded spaces");
 
         // Seed reservations
-        reservations[0]["reserved_id"] = itemsNew[0]._id;
-        reservations[0]["reserved_by"] = usersNew[0]._id;
-        reservations[1]["reserved_id"] = spacesNew[0]._id;
-        reservations[1]["reserved_by"] = usersNew[1]._id;
+        //        reservations[0]["reserved_id"] = itemsNew[0]._id;
+        //        reservations[0]["reserved_by"] = usersNew[0]._id;
+        //
+        //        reservations[1]["reserved_id"] = itemsNew[1]._id;
+        //        reservations[1]["reserved_by"] = usersNew[1]._id;
+        //
+        //        reservations[2]["reserved_id"] = itemsNew[2]._id;
+        //        reservations[2]["reserved_by"] = usersNew[0]._id;
+        //
+        //        reservations[3]["reserved_id"] = itemsNew[4]._id;
+        //        reservations[3]["reserved_by"] = usersNew[1]._id;
+        //
+        //        reservations[4]["reserved_id"] = spacesNew[1]._id;
+        //        reservations[4]["reserved_by"] = usersNew[0]._id;
+        //
+        //        reservations[5]["reserved_id"] = spacesNew[1]._id;
+        //        reservations[5]["reserved_by"] = usersNew[1]._id;
+        //
+        //        reservations[6]["reserved_id"] = spacesNew[0]._id;
+        //        reservations[6]["reserved_by"] = usersNew[0]._id;
+        //
+        //        reservations[7]["reserved_id"] = spacesNew[0]._id;
+        //        reservations[7]["reserved_by"] = usersNew[1]._id;
 
-        await Reservation.insertMany(reservations);
 
-        console.log("📅 Seeded reservations");
+        //        await Reservation.insertMany(reservations);
+
+        //        console.log("📅 Seeded reservations");
 
         // Seed market items
         markets[0]["owner_id"] = usersNew[0]._id;
