@@ -8,7 +8,7 @@ const users = [
     {
         name: "User",
         email: 'user@hoas.fi',
-        password: "Juan1!",
+        password: "User1!",
         status: 0,
     },
 ];
