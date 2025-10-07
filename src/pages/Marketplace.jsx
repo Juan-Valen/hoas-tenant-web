@@ -5,7 +5,7 @@ import FilterSidebar from "../components/FilterSidebar";
 import "../styles/Marketplace.css";
 import { useAuthContext } from "../contexts/AuthContext.jsx";
 
-export default function Marketplace({ }) {
+export default function Marketplace() {
   const [markets, setMarkets] = useState([]);
   const [filteredMarkets, setFilteredMarkets] = useState([]);
   const [filters, setFilters] = useState({});
@@ -43,6 +43,27 @@ export default function Marketplace({ }) {
 
   // Add a new market
   const addMarket = async (market) => {
+    // Extract values based on data type
+    let title, description, price;
+    
+    if (market instanceof FormData) {
+      title = market.get('title');
+      description = market.get('description');
+      price = parseFloat(market.get('price'));
+    } else {
+      title = market.title;
+      description = market.description;
+      price = market.price;
+    }
+
+    // Validation
+    if (!title || !description || price == null) {
+      return alert("Please provide title, description and price.");
+    }
+
+    if (typeof price !== "number" || price < 0 || isNaN(price)) {
+      return alert("Price must be a non-negative number.");
+    }
 
     console.log("Adding market:", market);
     // Debug: Log all formData entries if market is FormData
@@ -71,9 +92,8 @@ export default function Marketplace({ }) {
       const data = response.market;
 
       if (!res.ok) {
-        console.error("Create market failed", data);
-        throw new Error(data.message || "Failed to create market");
-        console.error("Error details:", data);
+        console.error("Create market failed", response);
+        throw new Error(response.message || "Failed to create market");
       }
 
       setMarkets([data, ...markets]);
