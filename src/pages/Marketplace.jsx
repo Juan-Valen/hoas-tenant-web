@@ -3,6 +3,7 @@ import MarketCard from "../components/MarketCard";
 import MarketForm from "../components/MarketForm";
 import FilterSidebar from "../components/FilterSidebar";
 import "../styles/Marketplace.css";
+import { useAuthContext } from "../contexts/AuthContext.jsx";
 
 export default function Marketplace({ }) {
   const [markets, setMarkets] = useState([]);
@@ -11,6 +12,8 @@ export default function Marketplace({ }) {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [showForm, setShowForm] = useState(false);
+  const { isAuthenticated } = useAuthContext();
+  const userId = isAuthenticated ? (isAuthenticated.id ?? isAuthenticated._id ?? null) : null;
 
   // Fetch markets from backend
   useEffect(() => {
@@ -18,9 +21,9 @@ export default function Marketplace({ }) {
       try {
         setLoading(true);
         const res = await fetch("/api/markets");
-        if (!res.ok) throw new Error("Failed to fetch markets");
-        const data = await res.json();
-        setMarkets(data);
+  if (!res.ok) throw new Error("Failed to fetch markets");
+  const data = await res.json();
+  setMarkets(data);
       } catch (err) {
         setError(err.message);
       } finally {
@@ -68,6 +71,7 @@ export default function Marketplace({ }) {
       const data = response.market;
 
       if (!res.ok) {
+        console.error("Create market failed", data);
         throw new Error(data.message || "Failed to create market");
         console.error("Error details:", data);
       }
@@ -83,7 +87,13 @@ export default function Marketplace({ }) {
     <main className="marketplace">
       <header className="marketplace-header">
         <h1>Marketplace</h1>
-        <button onClick={() => setShowForm(true)}>+ List Item</button>
+        <button
+          onClick={() => setShowForm(true)}
+          disabled={!userId}
+          title={!userId ? "Log in to list items" : "List a new item"}
+        >
+          {userId ? "+ List Item" : "Log in to list"}
+        </button>
       </header>
 
       {loading && <p>Loading...</p>}
