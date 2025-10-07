@@ -24,7 +24,6 @@ function App() {
             <Routes>
                 {/* Main site */}
                 <Route path="/" element={isAuthenticated ? <Layout /> : <Navigate to="/login" />}>
-                    <Route path="/update-password" element={<UpdatePassword />} />
                     <Route index element={<Home />} />
                     <Route path="marketplace" element={<Marketplace />} />
                     <Route path='booking' element={<BookingPage />} />
@@ -42,6 +41,7 @@ function App() {
                 </Route>
 
                 <Route path="/login" element={isAuthenticated ? <Navigate to="/" /> : <LoginPage />} />
+                <Route path="/update-password" element={<UpdatePassword />} />
                 <Route path="*" element={<NotFound />} />
             </Routes>
         </BrowserRouter>

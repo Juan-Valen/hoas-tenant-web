@@ -86,14 +86,19 @@ input:focus {
 }
 
 .login-btn {
+    display: flex;              
+    justify-content: center;   
+    align-items: center; 
     width: 100%;
     padding: 0.9rem;
+     margin-top: 0.75rem;
     background-color: #5865f6;
     color: white;
     border: none;
     border-radius: 8px;
     font-size: 1rem;
     cursor: pointer;
+    text-decoration: none;
     transition: background-color 0.3s;
 }
 

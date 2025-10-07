@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Link } from "react-router-dom"; 
 import "../styles/LoginPage.css";
 import { Navigate } from "react-router-dom";
 import useLogin from "../hooks/useLogin";
@@ -87,7 +88,9 @@ function LoginPage() {
                             : "Weak password (at least 6 chars, number, and letter)"}
                     </p>
                 )}
-
+                    <Link to="/update-password" className="login-btn secondary-btn">
+                    Reset Password
+                    </Link>
                 <button className="login-btn">Login</button>
             </form>
         </main>
