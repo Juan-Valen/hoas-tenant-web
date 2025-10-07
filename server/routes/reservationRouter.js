@@ -7,12 +7,14 @@ const {
     getReservationById,
     updateReservation,
     deleteReservation,
-    getFullSlots
+    getFullSlots,
+    getReservationByUserId
 } = require('../controllers/reservationControllers');
 
 router.get('/', getAllReservations);
 router.post('/reservables', getReservables);
 router.post('/', createReservation);
+router.get('/users/:userId', getReservationByUserId);
 router.get('/:reservationId', getReservationById);
 router.put('/:reservationId', updateReservation);
 router.delete('/:reservationId', deleteReservation);

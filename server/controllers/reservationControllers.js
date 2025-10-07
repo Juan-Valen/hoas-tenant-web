@@ -2,6 +2,7 @@ const Item = require('../models/itemModel');
 const Space = require('../models/spaceModel');
 const Reservation = require('../models/reservationModel');
 const mongoose = require('mongoose');
+const User = require('../models/userModel');
 
 
 
@@ -35,7 +36,7 @@ const getReservables = async (req, res) => {
 // POST /api/reservations
 const createReservation = async (req, res) => {
     try {
-        const { start, end, reserved_by, reserved_id } = req.body;
+        const { start, end, reserved_type, reserved_by, reserved_id } = req.body;
 
         // Convert to Date objects
         const requestedStart = new Date(start);
@@ -47,6 +48,8 @@ const createReservation = async (req, res) => {
 
         // Check for overlapping reservations
         const conflict = await Reservation.findOne({
+            reserved_id: reserved_id,
+            reserved_type,
             $or: [
                 { start: { $lt: requestedEnd }, end: { $gt: requestedStart } }, // any overlap
                 { start: { $lte: requestedStart }, end: { $gte: requestedEnd } } // exactly covers or contains
@@ -63,6 +66,7 @@ const createReservation = async (req, res) => {
         const newReservation = await Reservation.create({
             start: requestedStart,
             end: requestedEnd,
+            reserved_type,
             reserved_by,
             reserved_id
         });
@@ -75,7 +79,6 @@ const createReservation = async (req, res) => {
 };
 
 // GET /api/reservations/:id
-
 const getReservationById = async (req, res) => {
     const { reservationId } = req.params;
 
@@ -91,6 +94,42 @@ const getReservationById = async (req, res) => {
             res.status(404).json({ message: "Reservation not found" });
         }
     } catch (error) {
+        console.log(error.message);
+        res.status(500).json({ message: "Server error, failed to retrieve reservation" });
+    }
+};
+
+// GET /api/reservations/users/:userId
+const getReservationByUserId = async (req, res) => {
+    const { userId } = req.params;
+    const today = new Date();
+    today.setHours(0);
+    today.setMinutes(0);
+    today.setMilliseconds(0);
+
+    if (!mongoose.Types.ObjectId.isValid(userId)) {
+        return res.status(400).json({ message: `Invalid reservation ID: ${userId}` });
+    }
+
+    try {
+        const user = await User.findById(userId);
+        var reservations;
+        if (user) {
+            reservations = await Reservation
+                .find({
+                    reserved_by: user._id,
+                    end: { $gt: today }
+                })
+                .populate('reserved_id', '_id identifier location type')
+                .sort({ createdAt: -1 });
+        }
+        if (reservations) {
+            res.status(200).json(reservations);
+        } else {
+            res.status(404).json({ message: "Reservation not found" });
+        }
+    } catch (error) {
+        console.error(error.message);
         res.status(500).json({ message: "Server error, failed to retrieve reservation" });
     }
 };
@@ -114,6 +153,7 @@ const updateReservation = async (req, res) => {
             res.status(404).json({ message: "Reservation not found" });
         }
     } catch (error) {
+        console.error(error.message);
         res.status(500).json({ message: "Server error, failed to update reservation" });
     }
 };
@@ -134,6 +174,7 @@ const deleteReservation = async (req, res) => {
             res.status(404).json({ message: "Reservation not found" });
         }
     } catch (error) {
+        console.error(error.message);
         res.status(500).json({ message: "Server error, failed to delete reservation" });
     }
 };
@@ -175,6 +216,7 @@ module.exports = {
     getReservables,
     createReservation,
     getReservationById,
+    getReservationByUserId,
     updateReservation,
     deleteReservation,
     getFullSlots
