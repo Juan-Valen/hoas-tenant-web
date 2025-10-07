@@ -30,6 +30,12 @@ async function analyzeMarketImages(imageFiles) {
     Analyze each image individually and provide an overall assessment.
 
     Provide a brief 1 to 3 paragraph description of the items shown in the images.
+
+    Do not mention that you are describing images, but focus on describing the items.
+
+    eg. "A simple wooden chair with a cushioned seat and a cycling helmet with adjustable straps." 
+
+    Summarize the content in 3 paragraphs maximum.
     
     Provide a structured JSON response:
     

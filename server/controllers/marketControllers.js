@@ -32,8 +32,8 @@ const upload = multer({
 const getAllMarkets = async (req, res) => {
     try {
         const markets = await Market.find({})
-        .sort({ createdAt: -1 })
-        .populate('owner_id', 'name');
+            .sort({ createdAt: -1 })
+            .populate('owner_id', 'name');
         res.status(200).json(markets);
     } catch (error) {
         res.status(500).json({ message: ("failed to retrieve reservations: " + error.message) });
@@ -56,7 +56,7 @@ const getMarketById = async (req, res) => {
 
         // Get associated images for this market item
         const images = await MarketImage.find({ market_id: marketId });
-        
+
         // Format image data to include only necessary info
         const imageList = images.map(image => ({
             id: image._id,
@@ -80,7 +80,7 @@ const getMarketById = async (req, res) => {
 // POST api/markets
 const createMarket = async (req, res) => {
     const { description } = req.body;
-    
+
     try {
         // Check description appropriateness
         const descCheck = await generateText(description);
@@ -93,11 +93,11 @@ const createMarket = async (req, res) => {
 
         // Create the market item first
         const newMarket = await Market.create({ ...req.body });
-        
+
         // Handle image uploads if files are present
         let uploadedImages = [];
         let rejectedImages = [];
-        
+
         if (req.files && req.files.length > 0) {
             try {
                 // Prepare image files for analysis
@@ -163,6 +163,8 @@ const createMarket = async (req, res) => {
             response.warning = `${rejectedImages.length} image(s) were rejected due to content policy violations`;
         }
 
+        const populatedMarket = await Market.findById(newMarket._id).populate('owner_id', 'name');
+        response.market = populatedMarket;
         res.status(201).json(response);
 
     } catch (error) {
@@ -228,7 +230,7 @@ const getMarketImages = async (req, res) => {
 
     try {
         const images = await MarketImage.find({ market_id: marketId });
-        
+
         if (images.length === 0) {
             return res.status(404).json({ message: "No images found for this market item" });
         }
@@ -245,9 +247,9 @@ const getMarketImages = async (req, res) => {
         res.status(200).json(imageList);
 
     } catch (error) {
-        res.status(500).json({ 
-            message: "Failed to retrieve images", 
-            error: error.message 
+        res.status(500).json({
+            message: "Failed to retrieve images",
+            error: error.message
         });
     }
 };
@@ -263,7 +265,7 @@ const getMarketImage = async (req, res) => {
 
     try {
         const image = await MarketImage.findOne({ _id: imageId, market_id: marketId });
-        
+
         if (!image) {
             return res.status(404).json({ message: "Image not found" });
         }
@@ -280,7 +282,7 @@ const getMarketImage = async (req, res) => {
             'Content-Length': image.img.data.length,
             'Content-Disposition': `inline; filename="${image.filename}"`
         });
-        
+
         // Send the actual image data
         res.send(image.img.data);
 
@@ -319,9 +321,9 @@ const analyzeImageEndpoint = async (req, res) => {
 
     } catch (error) {
         console.error('Image analysis error:', error);
-        res.status(500).json({ 
-            message: "Failed to analyze images", 
-            error: error.message 
+        res.status(500).json({
+            message: "Failed to analyze images",
+            error: error.message
         });
     }
 };
