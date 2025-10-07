@@ -105,3 +105,31 @@ input:focus {
 .login-btn:hover {
     background-color: #457b9d;
 }
+
+.reset-link {
+  display: block;
+  margin: 0.75rem 0;
+  font-size: 0.9rem;
+  color: #0078d4;          /* Microsoft blue */
+  text-align: center;
+  text-decoration: none;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+/* Force all states to stay blue */
+.reset-link:link,
+.reset-link:visited {
+  color: #0078d4;
+}
+
+.reset-link:hover,
+.reset-link:focus {
+  color: #171717;          
+  text-decoration: underline;
+}
+
+.reset-link:active {
+  color: #004578;          
+}
+

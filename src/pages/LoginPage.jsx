@@ -88,8 +88,8 @@ function LoginPage() {
                             : "Weak password (at least 6 chars, number, and letter)"}
                     </p>
                 )}
-                    <Link to="/update-password" className="login-btn secondary-btn">
-                    Reset Password
+                    <Link to="/update-password" className="reset-link">
+                    Can't access your account?
                     </Link>
                 <button className="login-btn">Login</button>
             </form>
