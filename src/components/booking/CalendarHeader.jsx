@@ -1,10 +1,11 @@
-import React from "react";
 import { format, addDays, subDays, isSameDay, isBefore } from "date-fns";
 import { FaCalendarAlt, FaChevronRight, FaChevronLeft } from "react-icons/fa";
 import "./CalendarHeader.css";
+import { useReservationContext } from "../../contexts/ReservationContext";
 
-export default function CalendarHeader({ selectedDate, setSelectedDate }) {
-    const formatted = format(selectedDate, "EEEE dd/MM/yyyy");
+export default function CalendarHeader() {
+    const { selectedDate, setSelectedDate } = useReservationContext();
+    const formatted = format(selectedDate, "EEEE dd-MM-yyyy");
     const today = new Date();
 
     const handleNextDay = () => {
@@ -23,8 +24,7 @@ export default function CalendarHeader({ selectedDate, setSelectedDate }) {
         <div className="calendar-header">
             <FaChevronLeft
                 className={`calendar-arrow ${isAtToday ? "disabled" : ""}`}
-                onClick={handlePrevDay}
-            />
+                onClick={handlePrevDay} />
             <div>
                 <FaCalendarAlt className="calendar-icon" />
                 <span className="calendar-date">{formatted}</span>

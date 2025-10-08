@@ -1,8 +1,8 @@
-// BookingInstructions.jsx
-import React from "react";
 import "./BookingInstructions.css";
+import { useReservationContext } from "../../contexts/ReservationContext";
 
-export default function BookingInstructions({ activeTab }) {
+export default function BookingInstructions() {
+    const { activeTab } = useReservationContext();
     const instructions = {
         sauna: {
             title: "Making a Reservation for Sauna",
