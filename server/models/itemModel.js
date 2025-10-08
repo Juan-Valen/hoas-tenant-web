@@ -4,10 +4,6 @@ const Schema = mongoose.Schema;
 
 const itemSchema = new Schema(
     {
-        name: {
-            type: String,
-            required: true,
-        },
         identifier: {
             type: String,
             required: true,
@@ -22,6 +18,10 @@ const itemSchema = new Schema(
             required: false,
         },
         location: {
+            type: String,
+            required: false,
+        },
+        description: {
             type: String,
             required: false,
         },

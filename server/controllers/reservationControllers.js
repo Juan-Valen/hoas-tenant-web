@@ -22,12 +22,12 @@ const getReservables = async (req, res) => {
     try {
         console.log(type);
         if (type == "washing machine" || type == "dryer") {
-            var reservables = await Item.find({ type: type, reservable: true }, "_id identifier reservable maintenance").sort({ createdAt: -1 });
+            var reservables = await Item.find({ type: type, reservable: true }, "_id identifier reservable maintenance description location").sort({ createdAt: -1 });
             console.log("laundry")
             console.log(reservables);
         }
         if (type == "sauna" || type == "clubroom") {
-            reservables = await Space.find({ type: type, reservable: true }, "_id identifier reservable maintenance").sort({ createdAt: -1 });
+            reservables = await Space.find({ type: type, reservable: true }, "_id identifier reservable maintenance description location").sort({ createdAt: -1 });
             console.log("spaces")
             console.log(reservables);
         }

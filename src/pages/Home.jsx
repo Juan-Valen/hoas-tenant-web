@@ -49,8 +49,8 @@ function Home() {
                                     const description = res.reserved_id?.description;
 
                                     return (
-                                        <>
-                                            <p key={res._id}>
+                                        <React.Fragment key={res._id}>
+                                            <div key={res._id}>
                                                 <div className="reservation-details">
                                                     <div className="reservation-info">
                                                         <p>{format(start, "MMM yyyy")}</p>
@@ -62,18 +62,20 @@ function Home() {
                                                     </div>
                                                 </div>
 
-                                            </p>
+                                            </div>
                                             <hr />
-                                        </>
+                                        </React.Fragment>
                                     )
                                 })}
 
                         </div>
-                        {card.link.startsWith("/") ? (
-                            <Link to={card.link} className="btn">Open</Link> // use React Router for internal routes
-                        ) : (
-                            <a href={card.link} className="btn">Open</a>
-                        )}
+                        {
+                            card.link.startsWith("/") ? (
+                                <Link to={card.link} className="btn">Open</Link> // use React Router for internal routes
+                            ) : (
+                                <a href={card.link} className="btn">Open</a>
+                            )
+                        }
                     </div>
                 ))}
                 {
@@ -91,7 +93,7 @@ function Home() {
                     ))
                 }
             </section>
-        </main>
+        </main >
     );
 }
 
