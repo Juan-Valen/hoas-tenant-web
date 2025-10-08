@@ -8,26 +8,26 @@ const itemSchema = new Schema(
             type: String,
             required: true,
         },
-        location: {
+        identifier: {
             type: String,
-            required: false,
+            required: true,
         },
         type: {
             type: String,
             enum: ['washing machine', 'dryer', 'utility', 'other'],
             required: true,
         },
-        maintenance: {
-            type: Number,
-            enum: [0/*Everything okay*/, 1/*Under maintenance*/, 2/*Damaged*/],
-            required: true,
-        },
-        resevable: {
+        reservable: {
             type: Boolean,
             required: false,
         },
-        identifier: {
+        location: {
             type: String,
+            required: false,
+        },
+        maintenance: {
+            type: Number,
+            enum: [0/*Everything okay*/, 1/*Under maintenance*/, 2/*Damaged*/],
             required: true,
         },
         created_by: {

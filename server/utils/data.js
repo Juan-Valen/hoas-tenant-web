@@ -8,7 +8,7 @@ const users = [
     {
         name: "User",
         email: 'user@hoas.fi',
-        password: "Juan1!",
+        password: "User1!",
         status: 0,
     },
 ];
@@ -36,7 +36,7 @@ const items = [
         location: "Room A2",
         type: "dryer",
         maintenance: 1,
-        resevable: true,
+        reservable: true,
         identifier: "01",
     },
     {
@@ -44,7 +44,7 @@ const items = [
         location: "Room A2",
         type: "dryer",
         maintenance: 1,
-        resevable: true,
+        reservable: true,
         identifier: "02",
     },
     {
@@ -52,7 +52,7 @@ const items = [
         location: "Room A2",
         type: "washing machine",
         maintenance: 1,
-        resevable: true,
+        reservable: true,
         identifier: "01",
     },
     {
@@ -60,7 +60,7 @@ const items = [
         location: "Room A2",
         type: "washing machine",
         maintenance: 1,
-        resevable: true,
+        reservable: true,
         identifier: "02",
     },
 ];
@@ -89,9 +89,39 @@ const reservations = [
         end: new Date("2025-10-10T11:00:00Z"),
     },
     {
+        reserved_type: "Item",
+        start: new Date("2025-10-10T11:00:00Z"),
+        end: new Date("2025-10-10T12:00:00Z"),
+    },
+    {
+        reserved_type: "Item",
+        start: new Date("2025-10-10T13:00:00Z"),
+        end: new Date("2025-10-10T14:00:00Z"),
+    },
+    {
+        reserved_type: "Item",
+        start: new Date("2025-10-10T14:00:00Z"),
+        end: new Date("2025-10-10T15:00:00Z"),
+    },
+    {
         reserved_type: "Space",
         start: new Date("2025-10-12T14:00:00Z"),
         end: new Date("2025-10-12T16:00:00Z"),
+    },
+    {
+        reserved_type: "Space",
+        start: new Date("2025-10-12T16:00:00Z"),
+        end: new Date("2025-10-12T18:00:00Z"),
+    },
+    {
+        reserved_type: "Space",
+        start: new Date("2025-10-12T00:00:00Z"),
+        end: new Date("2025-10-12T06:00:00Z"),
+    },
+    {
+        reserved_type: "Space",
+        start: new Date("2025-10-12T06:00:00Z"),
+        end: new Date("2025-10-12T12:00:00Z"),
     },
 ]
 

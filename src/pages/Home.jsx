@@ -1,10 +1,26 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { useAuthContext } from "../contexts/AuthContext";
+import { format } from "date-fns";
 
 
 function Home() {
     const { isAuthenticated } = useAuthContext();
+    const [myReservations, setMyReservations] = useState([]);
+    const handleMyReservations = async () => {
+        if (!isAuthenticated || isAuthenticated == undefined) {
+            return
+        }
+        var response = await fetch(`http://localhost:4000/api/reservations/users/${isAuthenticated.id}`, {
+            method: "GET",
+            headers: { "Content-Type": "application/json" },
+        });
+        var resJson = await response.json();
+        setMyReservations(resJson);
+    }
+    useEffect(() => {
+        handleMyReservations();
+    }, [])
     const cards = [
         { id: 1, title: "Announcements", text: "Latest updates and important information.", link: "#announcements" },
         { id: 2, title: "Messages", text: "Check your messages and stay connected.", link: "#messages" },
@@ -23,7 +39,36 @@ function Home() {
                     <div className="card" key={card.id}>
                         <h2>{card.title}</h2>
                         <p>{card.text}</p>
-                        <div className="items"></div>
+                        <div className="items">
+                            {card.title == "Booking" &&
+                                myReservations &&
+                                myReservations.slice(0, 3).map((res) => {
+                                    const start = new Date(res.start);
+                                    const end = new Date(res.end);
+                                    const location = res.reserved_id?.location;
+                                    const description = res.reserved_id?.description;
+
+                                    return (
+                                        <>
+                                            <p key={res._id}>
+                                                <div className="reservation-details">
+                                                    <div className="reservation-info">
+                                                        <p>{format(start, "MMM yyyy")}</p>
+                                                        <strong>{format(start, "EE")}</strong> {format(start, "kk:00") + " - " + format(end, "kk:00")}
+                                                        <br />
+                                                        <span className="reservation-location">  {res.reserved_id.type + " " + res.reserved_id.identifier + ", " + (location ?? "")}</span>
+                                                        <br />
+                                                        <span className="reservation-description">{description}</span>
+                                                    </div>
+                                                </div>
+
+                                            </p>
+                                            <hr />
+                                        </>
+                                    )
+                                })}
+
+                        </div>
                         {card.link.startsWith("/") ? (
                             <Link to={card.link} className="btn">Open</Link> // use React Router for internal routes
                         ) : (

@@ -20,13 +20,18 @@ const getAllReservations = async (req, res) => {
 const getReservables = async (req, res) => {
     const { type } = req.body;
     try {
-        var reservables;
-        if (type == "sauna" || type == "clubroom") {
-            reservables = await Space.find({ type: type, reservable: true }, "_id identifier maintenance").sort({ createdAt: -1 });
-        }
+        console.log(type);
         if (type == "washing machine" || type == "dryer") {
-            reservables = await Item.find({ type: type, reservable: true }, "_id identifier maintenance").sort({ createdAt: -1 });
+            var reservables = await Item.find({ type: type, reservable: true }, "_id identifier reservable maintenance").sort({ createdAt: -1 });
+            console.log("laundry")
+            console.log(reservables);
         }
+        if (type == "sauna" || type == "clubroom") {
+            reservables = await Space.find({ type: type, reservable: true }, "_id identifier reservable maintenance").sort({ createdAt: -1 });
+            console.log("spaces")
+            console.log(reservables);
+        }
+        console.log(reservables);
         res.status(200).json(reservables);
     } catch (error) {
         res.status(500).json({ message: ("failed to retrieve reservations: " + error.message) });
@@ -179,9 +184,8 @@ const deleteReservation = async (req, res) => {
     }
 };
 
-// GET /api/reservations/freeslots/:reserved_id/:start/:end
+// POST /api/reservations/fullslots/:reserved_id/:start/:end
 const getFullSlots = async (req, res) => {
-    const { reserved_id } = req.params;
     const { start, end } = req.body
 
     const startTime = new Date(start);
@@ -194,7 +198,6 @@ const getFullSlots = async (req, res) => {
 
     try {
         const reservations = await Reservation.find({
-            reserved_id: reserved_id,
             start: { $lt: endTime },
             end: { $gt: startTime }
         }).sort('start');
@@ -202,11 +205,13 @@ const getFullSlots = async (req, res) => {
         let fullSlots = [];
 
         for (let r of reservations) {
-            fullSlots.push({ begins: new Date(r.start), ends: new Date(r.end) })
+            fullSlots.push({ start: new Date(r.start), end: new Date(r.end), _id: r.reserved_id })
         }
+        console.log(fullSlots)
 
         res.status(200).json(fullSlots);
     } catch (error) {
+        console.error(error.message)
         res.status(500).json({ message: `Server error: ${error}, failed to retrieve free slots` });
     }
 };

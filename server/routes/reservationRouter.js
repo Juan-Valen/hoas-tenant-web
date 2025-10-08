@@ -12,10 +12,11 @@ const {
 } = require('../controllers/reservationControllers');
 
 router.get('/', getAllReservations);
-router.post('/reservables', getReservables);
-router.post('/', createReservation);
 router.get('/users/:userId', getReservationByUserId);
-router.get('/:reservationId', getReservationById);
+router.post('/', createReservation);
+router.post('/fullslots', getFullSlots); // Get all reserved times
+router.post('/reservables', getReservables);
+router.post('/:reservationId', getReservationById);
 router.put('/:reservationId', updateReservation);
 router.delete('/:reservationId', deleteReservation);
 router.get('/reservedslots/:reserved_id', getFullSlots); // Get all reserved times
