@@ -48,7 +48,7 @@ function Header() {
                 <Link to='/booking'>Booking</Link>
 
                 {isAuthenticated && (
-                    <button onClick={() => {
+                    <button className="logout" style={{ marginLeft: 12, backgroundColor: "red", color: "white", border: "0", borderRadius: 12, padding: 8 }} onClick={() => {
                         localStorage.removeItem("user");
                         setIsAuthenticated(false);
                     }}>Logout</button>
