@@ -11,6 +11,7 @@ const userRouter = require("./routes/userRouter")
 const marketRouter = require("./routes/marketRouter")
 const { requestLogger, unknownEndpoint, errorHandler } = require("./middleware/customMiddleware");
 const cors = require("cors");
+const requireAuth = require('./middleware/requireAuth');
 
 
 // express app
@@ -29,11 +30,13 @@ app.get("/", (req, res) => res.send("API Running!"));
 
 // routes
 
-// // Use the marketRouter for all /market routes
-app.use("/api/markets", marketRouter);
-
 // Use the userRouter for all /users routes
 app.use("/api/users", userRouter)
+
+app.use(requireAuth)
+
+// // Use the marketRouter for all /market routes
+app.use("/api/markets", marketRouter);
 
 // Use the itemRouter for all /items routes
 app.use("/api/items", itemRouter);
