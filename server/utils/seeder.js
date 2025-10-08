@@ -25,12 +25,13 @@ const importData = async () => {
             return { ...u, password: hash };
         });
 
+        console.log("🧺 Seeded users");
         const usersNew = await User.insertMany(sampleUsers);
         items[0]["created_by"] = usersNew[0]._id.toString()
         items[1]["created_by"] = usersNew[1]._id.toString()
         items[2]["created_by"] = usersNew[0]._id.toString()
         items[3]["created_by"] = usersNew[1]._id.toString()
-        console.log(items);
+        //        console.log(items);
 
         const itemsNew = await Item.insertMany(items);
 
