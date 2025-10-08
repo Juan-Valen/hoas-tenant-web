@@ -24,7 +24,7 @@ export default function UserReservations() {
                                         <p>{format(start, "MMM yyyy")}</p>
                                         <strong>{format(start, "EE")}</strong> {format(start, "kk:00") + " - " + format(end, "kk:00")}
                                         <br />
-                                        <span className="reservation-location">  {res.reserved_id.type + " " + res.reserved_id.identifier + ", " + (location??"")}</span>
+                                        <span className="reservation-location">  {res.reserved_id.type + " " + res.reserved_id.identifier + ", " + (location ?? "")}</span>
                                         <br />
                                         <span className="reservation-description">{description}</span>
                                     </div>
