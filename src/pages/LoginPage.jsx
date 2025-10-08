@@ -89,7 +89,7 @@ function LoginPage() {
                     </p>
                 )}
                     <Link to="/update-password" className="reset-link">
-                    Can't access your account?
+                    Reset password
                     </Link>
                 <button className="login-btn">Login</button>
             </form>
