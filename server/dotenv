@@ -1,5 +1,0 @@
-# TX00#web# after encoding TX00%23web%23
-# https://www.w3schools.com/tags/ref_urlencode.asp?_sm_au_=iVVDMg0TSmrMV6Dm
-PORT=4000
-MONGO_URI=
-JWT_SECRET=2ca613baebcc5b6c336aebdf7d78dca5a20f1e76f3e6e9a83eeee41efdf93412
