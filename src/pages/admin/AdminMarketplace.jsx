@@ -10,12 +10,14 @@ export default function AdminMarketplace() {
     const fetchMarkets = async () => {
       try {
         setLoading(true);
+        setError("");
         const res = await fetch("/api/markets");
         if (!res.ok) throw new Error("Failed to fetch markets");
         const data = await res.json();
         setItems(data);
       } catch (err) {
-        setError(err.message);
+        console.error(err);
+        setError("Could not load markets.");
       } finally {
         setLoading(false);
       }
@@ -29,7 +31,9 @@ export default function AdminMarketplace() {
     if (!confirmDelete) return;
 
     try {
-      const res = await fetch(`/api/markets/${id}`, { method: "DELETE" });
+      const res = await fetch(`/api/markets/${id}`, {
+        method: "DELETE",
+      });
       if (!res.ok) throw new Error("Failed to delete item");
       setItems(items.filter((item) => item._id !== id));
     } catch (err) {
@@ -66,7 +70,7 @@ export default function AdminMarketplace() {
                 <td>{item.title}</td>
                 <td>{item.description}</td>
                 <td>${item.price}</td>
-                <td>{item.owner_id}</td>
+                <td>{item.owner_id?.name || "Unknown"}</td>
                 <td>{new Date(item.createdAt).toLocaleDateString()}</td>
                 <td>
                   <button onClick={() => deleteMarket(item._id)}>Delete</button>

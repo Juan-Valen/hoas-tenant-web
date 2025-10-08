@@ -19,5 +19,6 @@ router.post('/reservables', getReservables);
 router.post('/:reservationId', getReservationById);
 router.put('/:reservationId', updateReservation);
 router.delete('/:reservationId', deleteReservation);
+router.get('/reservedslots/:reserved_id', getFullSlots); // Get all reserved times
 
 module.exports = router;

@@ -15,6 +15,7 @@ import AdminReports from "./pages/admin/AdminReports";
 import AdminBuildingFacilities from "./pages/admin/AdminBuildingFacilities";
 import AdminBooking from "./pages/admin/AdminBooking.jsx";
 import { useAuthContext } from "./contexts/AuthContext.jsx";
+import UpdatePassword from "./pages/UpdatePassword.jsx";
 
 function App() {
     const { isAuthenticated } = useAuthContext();
@@ -40,6 +41,7 @@ function App() {
                 </Route>
 
                 <Route path="/login" element={isAuthenticated ? <Navigate to="/" /> : <LoginPage />} />
+                <Route path="/update-password" element={<UpdatePassword />} />
                 <Route path="*" element={<NotFound />} />
             </Routes>
         </BrowserRouter>

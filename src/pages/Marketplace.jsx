@@ -32,7 +32,7 @@ export default function Marketplace() {
     };
     fetchMarkets();
   }, []);
-
+  
   // Filter markets by maxPrice
   useEffect(() => {
     const filtered = markets.filter((m) => {
@@ -43,31 +43,57 @@ export default function Marketplace() {
 
   // Add a new market
   const addMarket = async (market) => {
-    if (!userId) {
-      return alert("User not logged in. Cannot create market item.");
+    // Extract values based on data type
+    let title, description, price;
+    
+    if (market instanceof FormData) {
+      title = market.get('title');
+      description = market.get('description');
+      price = parseFloat(market.get('price'));
+    } else {
+      title = market.title;
+      description = market.description;
+      price = market.price;
     }
 
-    // Basic client-side validation to avoid server 400s
-    if (!market.title || !market.description || market.price == null) {
+    // Validation
+    if (!title || !description || price == null) {
       return alert("Please provide title, description and price.");
     }
 
-    if (typeof market.price !== "number" || market.price < 0) {
+    if (typeof price !== "number" || price < 0 || isNaN(price)) {
       return alert("Price must be a non-negative number.");
     }
 
-    try {
-      const res = await fetch("/api/markets", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ ...market, owner_id: userId }),
-      });
+    console.log("Adding market:", market);
+    // Debug: Log all formData entries if market is FormData
+    if (market instanceof FormData) {
+      for (let pair of market.entries()) {
+        console.log(pair[0], pair[1]);
+      }
+    }
 
-      const data = await res.json();
+    try {
+      let res;
+      if (market instanceof FormData) {
+        res = await fetch("/api/markets", {
+          method: "POST",
+          body: market,
+        });
+      } else {
+        res = await fetch("/api/markets", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(market),
+        });
+      }
+
+      const response = await res.json();
+      const data = response.market;
 
       if (!res.ok) {
-        console.error("Create market failed", data);
-        throw new Error(data.message || "Failed to create market");
+        console.error("Create market failed", response);
+        throw new Error(response.message || "Failed to create market");
       }
 
       setMarkets([data, ...markets]);
